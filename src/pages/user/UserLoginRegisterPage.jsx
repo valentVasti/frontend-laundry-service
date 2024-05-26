@@ -109,7 +109,7 @@ const UserLoginRegisterPage = () => {
             console.log(response.data);
             if (response.data.message) {
                 toast.success('Akun berhasil dibuat!', {
-                    position: "bottom-center",
+                    position: "top-center",
                     autoClose: 2000,
                     hideProgressBar: false,
                     pauseOnHover: false,
@@ -127,6 +127,7 @@ const UserLoginRegisterPage = () => {
             }
         } catch (error) {
             setIsLoading(false);
+            toast.error(error.response.data.message);
 
             if (error.response.data.message['name']) {
                 setNameInvalid(true);

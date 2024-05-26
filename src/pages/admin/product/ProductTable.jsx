@@ -10,10 +10,11 @@ import {
     getKeyValue,
     Button,
     Chip,
+    Tooltip
 } from "@nextui-org/react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Input } from '@nextui-org/react';
 import { BASE_URL } from '../../../server/Url';
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaQuestion } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -270,12 +271,23 @@ const ProductTable = () => {
                     </Chip>
                 );
             case "action":
-                return (
-                    <div className='flex gap-2'>
-                        <Button color='primary' radius='full' onPress={() => openModal(item.id, 'edit')}><FaEdit size={20} /></Button>
-                        <Button color='danger' radius='full' onPress={() => openModal(item.id, 'delete')}><MdDelete size={20} /></Button>
-                    </div>
-                );
+                if (item.product_name == 'Cuci' || item.product_name == 'Kering') {
+                    return (
+                        <div className='flex gap-2 w-full'>
+                            <Button color='primary' radius='full' fullWidth onPress={() => openModal(item.id, 'edit')} className='w-full'><FaEdit size={20} /></Button>
+                            <Tooltip placement='top' content={<div>Product <span className='font-bold'>Cuci & Kering</span> can't deleted!</div>}>
+                                <div className='bg-gray-300 flex justify-center items-center rounded-full w-full'><MdDelete size={20} /></div>
+                            </Tooltip>
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div className='flex gap-2'>
+                            <Button color='primary' radius='full' onPress={() => openModal(item.id, 'edit')}><FaEdit size={20} /></Button>
+                            <Button color='danger' radius='full' onPress={() => openModal(item.id, 'delete')}><MdDelete size={20} /></Button>
+                        </div>
+                    );
+                }
             default:
                 return cellValue;
         }

@@ -343,7 +343,7 @@ const MesinTable = ({ refresh }) => {
             case "action":
                 return (
                     <div className='flex gap-2'>
-                        <Button color='primary' radius='full' onPress={() => openModal(item.id, 'edit')}><FaEdit size={20} /></Button>
+                        <Button color='primary' radius='full' onPress={() => openModal(item.id, 'edit')}><FaEdit size={20} /></Button>                       
                         <Button color='danger' radius='full' onPress={() => openModal(item.id, 'delete')}><MdDelete size={20} /></Button>
                     </div>
                 );

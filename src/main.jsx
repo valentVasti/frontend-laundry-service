@@ -13,11 +13,12 @@ import { CookiesProvider } from 'react-cookie';
 const router = createBrowserRouter(routerConfig);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <NextUIProvider>
-      <CookiesProvider defaultSetOptions={{ path: '/' }}>
-        <RouterProvider router={router} />
-      </CookiesProvider>
-    </NextUIProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <NextUIProvider>
+    <CookiesProvider defaultSetOptions={{ path: '/' }}>
+      <RouterProvider router={router} />
+    </CookiesProvider>
+  </NextUIProvider>
+  // {/* </React.StrictMode> */}
+  ,
 )
