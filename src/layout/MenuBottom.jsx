@@ -41,7 +41,7 @@ const MenuBottom = () => {
                     <div className={clsx('text-2xl ', window.location.pathname === data.link ? 'text-orange-400' : 'text-gray-700')}>
                         {data.icon}
                     </div>
-                    <h1 className={clsx('text-xs ', window.location.pathname === data.link ? 'text-orange-400' : 'text-gray-700')}>{data.name}</h1>
+                    <h1 className={clsx('text-xs text-center ', window.location.pathname === data.link ? 'text-orange-400' : 'text-gray-700')}>{data.name}</h1>
                 </a>
             ))}
         </nav>

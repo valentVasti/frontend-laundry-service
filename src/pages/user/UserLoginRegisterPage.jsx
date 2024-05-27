@@ -58,7 +58,7 @@ const UserLoginRegisterPage = () => {
             if (response.data.message) {
                 setCookie('__USERTOKEN__', response.data.token, { path: '/' });
                 setCookie('__USERNAME__', response.data.data.name, { path: '/' });
-                navigate('/queue');
+                navigate('/');
             } else {
                 console.log('Login failed');
             }
@@ -153,7 +153,7 @@ const UserLoginRegisterPage = () => {
         <section className='w-full h-screen bg-orange-100 flex justify-center items-center'>
             <section className='bg-blue-400 h-screen w-full md:w-[500px] overflow-hidden relative'>
                 <div className='w-full h-[15%] flex justify-center items-center text-3xl font-bold text-white'>
-                    <img src={logo} className='h-24 bg-white rounded-b-xl p-2 shadow-2xl self-start' />
+                    <img src={logo} className='h-[80%] bg-white rounded-b-xl p-2 shadow-2xl self-start' />
                 </div>
                 <div className='absolute bottom-0 bg-white w-full h-[85%] rounded-t-3xl px-5 py-10'>
                     <ToastContainer

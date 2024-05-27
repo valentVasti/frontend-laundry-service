@@ -114,7 +114,7 @@ const QueuePage = () => {
     }
 
     return (
-        <section className='relative min-h-full max-h-auto px-3 w-full bg-white'>
+        <section className='relative min-h-full max-h-auto w-full px-3 bg-white'>
             <ToastContainer
                 position="top-center"
                 autoClose={2000}
@@ -126,12 +126,12 @@ const QueuePage = () => {
                 theme="light"
                 transition:Slide
             />
-            <div className='w-full h-14 flex justify-between items-center text-3xl font-bold text-white gap-4'>
+            <div className='w-full h-14 flex justify-evenly items-center text-3xl font-bold text-white gap-4'>
                 <img src={logo} className='h-full bg-white rounded-b-xl p-2 shadow-xl self-start w-1/5' />
-                <div className='flex flex-col bg-blue-400 text-white rounded-b-xl self-start w-full h-full justify-center items-center px-3 shadow-xl'>
+                <div className='flex flex-col bg-blue-400 text-white rounded-b-xl self-start w-3/5 h-full justify-center items-center px-3 shadow-xl'>
                     {
                         cookies.__USERTOKEN__ == undefined ? (
-                            <div className='font-normal text-sm flex flex-col items-center'>Selamat datang di Wash & Go App! <br/><span className='font-bold ms-1'>Masuk untuk mulai!</span></div>
+                            <div className='font-normal text-sm flex flex-col items-center text-center'>Selamat datang!<br /><span className='font-bold ms-1'>Masuk untuk mulai!</span></div>
                         ) : (
                             <>
                                 <div className='font-normal text-lg flex items-center'>Hai, <b>{cookies.__USERNAME__}!</b></div>
@@ -142,7 +142,7 @@ const QueuePage = () => {
                 </div>
                 {
                     cookies.__USERTOKEN__ == undefined ? (
-                        <Link to={'/login'} className='p-0 self-start h-full'><button className='slef-start h-full bg-orange-500 rounded-b-xl p-2 text-white font-normal text-lg shadow-xl flex items-center gap-2 hover:bg-orange-600 transition ease-in-out duration-300'>Masuk</button></Link>
+                        <Link to={'/login'} className='p-0 self-start h-full w-1/5'><button className='self-start h-full bg-orange-500 rounded-b-xl p-2 text-white font-normal text-lg shadow-xl flex items-center gap-2 hover:bg-orange-600 transition ease-in-out duration-300'>Masuk</button></Link>
                     ) : (
                         <button className='h-full w-1/5 justify-center bg-red-500 rounded-b-xl p-2 text-white font-normal text-2xl shadow-xl flex items-center gap-2 hover:bg-red-600 transition ease-in-out duration-300' onClick={() => hanldeLogout()}><MdLogout /></button>
                     )

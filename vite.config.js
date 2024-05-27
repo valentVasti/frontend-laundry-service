@@ -15,8 +15,8 @@ export default defineConfig({
       },
       includeAssets: ["logo.svg"],
       manifest: {
-        name: "Self Service Laundry",
-        short_name: "SelfServiceLaundry",
+        name: "Wash & Go Web App",
+        short_name: "Wash & Go",
         description: "Web App for self service laundry queue system",
         theme_color: "#ffffff",
         icons: [
