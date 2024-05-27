@@ -7,35 +7,35 @@ import clsx from 'clsx'
 
 const MenuBottom = () => {
     const menu = [
+        // {
+        //     name: 'Beranda',
+        //     icon: <FaHome />,
+        //     link: '/home'
+        // },
         {
-            name: 'Home',
+            name: 'Beranda',
             icon: <FaHome />,
-            link: '/home'
-        },
-        {
-            name: 'Queue',
-            icon: <MdLocalLaundryService />,
             link: '/queue'
         },
         {
-            name: 'Make Queue',
+            name: 'Buat Transaksi',
             icon: <FaCirclePlus />,
             link: '/makeTransaction'
         },
         {
-            name: 'Transaction',
+            name: 'Transaksi',
             icon: <CgNotes />,
             link: '/transaction'
         },
-        {
-            name: 'Profile',
-            icon: <CgProfile />,
-            link: '/profile'
-        },
+        // {
+        //     name: 'Profil',
+        //     icon: <CgProfile />,
+        //     link: '/profile'
+        // },
     ]
 
     return (
-        <nav className='w-full h-16 flex justify-center items-center border-t-2 border-gray-700 bg-white'>
+        <nav className='w-full h-16 flex justify-evenly items-center border-t-2 border-gray-700 bg-white'>
             {menu.map((data) => (
                 <a key={data.name} href={data.link} className={clsx('w-1/5 h-full flex flex-col justify-center items-center')}>
                     <div className={clsx('text-2xl ', window.location.pathname === data.link ? 'text-orange-400' : 'text-gray-700')}>

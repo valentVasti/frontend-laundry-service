@@ -6,6 +6,7 @@ import { Button } from '@nextui-org/react';
 import { BASE_URL } from '../server/Url';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import logo from '../assets/logo.png'
 
 const Sidebar = ({ sidebar, sidebarData }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -35,9 +36,11 @@ const Sidebar = ({ sidebar, sidebarData }) => {
 
   return (
     <div ref={sidebar} className='w-[20%] h-full will-change-transform'>
-      <div className='h-full w-full bg-gray-300 flex flex-col'>
+      <div className='h-full w-full bg-gray-300 flex flex-col gap-5'>
         <div id='logo' className='h-16  flex justify-center items-center text-2xl font-bold p-5'>
-          <div>Logo Here</div>
+          <div className='w-full h-[15%] flex justify-center items-center text-3xl font-bold text-white'>
+            <img src={logo} className='h-20 bg-white rounded-xl p-2 shadow-xl' />
+          </div>
         </div>
         <nav id='menu' className='h-full p-3 px-6 flex flex-col justify-between'>
           <li className="list-none space-y-5 text-lg">

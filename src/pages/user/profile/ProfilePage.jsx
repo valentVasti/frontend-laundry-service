@@ -89,9 +89,9 @@ const ProfilePage = () => {
           Profile
         </div>
         <div className='absolute bottom-0 h-[90%] bg-white w-full rounded-t-3xl p-5 flex justify-center flex-col items-center gap-5'>
-          <div className='text-2xl text-center'>Login untuk memulai melakukan transaksi!</div>
+          <div className='text-2xl text-center'>Masuk untuk memulai melakukan transaksi!</div>
           <Link to={'/login'}>
-            <Button color='primary' size='lg'>LOGIN</Button>
+            <Button color='primary' size='lg'>MASUK</Button>
           </Link>
         </div>
       </section>

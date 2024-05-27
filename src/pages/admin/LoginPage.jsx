@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { BASE_URL } from '../../server/Url';
 import { useCookies } from 'react-cookie';
+import logo from '../../assets/logo.png'
 
 const LoginPage = () => {
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -58,17 +59,17 @@ const LoginPage = () => {
                 console.log('Login failed');
             }
         } catch (error) {
-            if(error.response.data.message['email']){
+            if (error.response.data.message['email']) {
                 setEmailInvalid(true);
                 setEmailError(error.response.data.message['email'][0])
             }
 
-            if(error.response.data.message['password']){
+            if (error.response.data.message['password']) {
                 setPasswordInvalid(true);
                 setPasswordError(error.response.data.message['password'][0])
             }
 
-            if(error.response.data.message['role']){
+            if (error.response.data.message['role']) {
                 setEmailInvalid(true);
                 setEmailError(error.response.data.message['role'][0])
             }
@@ -82,7 +83,12 @@ const LoginPage = () => {
             <div className='h-screen w-full flex justify-center items-center'>
                 <Card className='w-96'>
                     <CardHeader>
-                        <p className='text-3xl text-center w-full'>LOGIN PAGE</p>
+                        <div className='flex flex-col w-full gap-4'>
+                            <div className='w-full h-[15%] flex justify-center items-center text-3xl font-bold text-white bg-gray-200 rounded-xl self-start pb-4'>
+                                <img src={logo} className='h-20 bg-white rounded-b-xl p-2' />
+                            </div>
+                            <p className='text-2xl text-center w-full'>LOGIN ADMIN PAGE</p>
+                        </div>
                     </CardHeader>
                     <Divider />
                     <CardBody className='flex flex-col gap-8 py-5'>

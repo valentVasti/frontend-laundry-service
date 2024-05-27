@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import { Button, Input, Link, Tab, Tabs, select } from '@nextui-org/react'
+import { Button, Input, Tab, Tabs, select, Link } from '@nextui-org/react'
+import { Link as LinkReactDom, redirect, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { BASE_URL } from '../../server/Url';
 import { useCookies } from 'react-cookie';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import logo from '../../assets/logo.png';
-import { useStore } from '../../server/store';
-
 
 const UserLoginRegisterPage = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['__USERTOKEN__']);
+    const [cookies, setCookie, removeCookie] = useCookies();
     const [selected, setSelected] = useState('login');
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState('');
@@ -30,6 +29,7 @@ const UserLoginRegisterPage = () => {
     const [passwordRegisterError, setPasswordRegisterError] = useState('');
     const [nameError, setNameError] = useState('');
     const [phoneNumError, setPhoneNumError] = useState('');
+    const navigate = useNavigate();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -57,26 +57,12 @@ const UserLoginRegisterPage = () => {
             console.log(response.data.data);
             if (response.data.message) {
                 setCookie('__USERTOKEN__', response.data.token, { path: '/' });
-                window.location.href = '/';
+                setCookie('__USERNAME__', response.data.data.name, { path: '/' });
+                navigate('/queue');
             } else {
                 console.log('Login failed');
             }
         } catch (error) {
-            // if (error.response.data.message['email'] && error.response.data.message['password']) {
-            //     setEmailInvalid(true);
-            //     setPasswordInvalid(true);
-            //     setEmailError(error.response.data.message['email'][0]);
-            //     setPasswordError(error.response.data.message['password'][0]);
-            // } else if (error.response.data.message['email']) {
-            //     setEmailInvalid(true);
-            //     setEmailError(error.response.data.message['email'][0]);
-            // } else if (error.response.data.message['password']) {
-            //     setPasswordInvalid(true);
-            //     setPasswordError(error.response.data.message['password'][0]);
-            // } else if (error.response.data.message) {
-            //     console.log(error.response.data.message);
-            // }
-
             if (error.response.data.message['email']) {
                 setEmailInvalid(true);
                 setEmailError(error.response.data.message['email'][0])
@@ -90,6 +76,11 @@ const UserLoginRegisterPage = () => {
             if (error.response.data.message['role']) {
                 setEmailInvalid(true);
                 setEmailError(error.response.data.message['role'][0])
+            }
+
+
+            if (!error.response.data.message['email'] && !error.response.data.message['password'] && !error.response.data.message['role'] && !error.response.data.message['name'] && !error.response.data.message['phone_num']) {
+                toast.error('Server error: ' + error.response.data.message);
             }
 
             setIsLoading(false);
@@ -150,6 +141,10 @@ const UserLoginRegisterPage = () => {
             }
 
 
+            if (!error.response.data.message['email'] && !error.response.data.message['password'] && !error.response.data.message['role'] && !error.response.data.message['name'] && !error.response.data.message['phone_num']) {
+                toast.error('Server error: ' + error.response.data.message);
+            }
+
             setIsLoading(false);
         }
     }
@@ -158,7 +153,7 @@ const UserLoginRegisterPage = () => {
         <section className='w-full h-screen bg-orange-100 flex justify-center items-center'>
             <section className='bg-blue-400 h-screen w-full md:w-[500px] overflow-hidden relative'>
                 <div className='w-full h-[15%] flex justify-center items-center text-3xl font-bold text-white'>
-                    <img src={logo} className='h-20 bg-white rounded-xl p-2 shadow-2xl'/>
+                    <img src={logo} className='h-24 bg-white rounded-b-xl p-2 shadow-2xl self-start' />
                 </div>
                 <div className='absolute bottom-0 bg-white w-full h-[85%] rounded-t-3xl px-5 py-10'>
                     <ToastContainer
@@ -191,7 +186,7 @@ const UserLoginRegisterPage = () => {
                                     isInvalid={passwordInvalid}
                                     errorMessage={passwordError}
                                 />
-                                <p className="text-center text-small">
+                                <p className="text-center text-small cursor-pointer">
                                     Belum buat akun?{" "}
                                     <Link size="sm" onPress={() => setSelected("sign-up")}>
                                         Daftar
@@ -218,9 +213,9 @@ const UserLoginRegisterPage = () => {
                                     isInvalid={passwordRegisterInvalid}
                                     errorMessage={passwordRegisterError}
                                 />
-                                <p className="text-center text-small">
+                                <p className="text-center text-small cursor-pointer">
                                     Sudah punya akun?{" "}
-                                    <Link size="sm">
+                                    <Link size="sm" onPress={() => setSelected("login")} >
                                         Login
                                     </Link>
                                 </p>
@@ -232,7 +227,14 @@ const UserLoginRegisterPage = () => {
                             </form>
                         </Tab>
                     </Tabs>
+                    <LinkReactDom to={'/'} size="sm" className='text-gray-400 underline underline-offset-2'>
+                        <p className="text-center text-small underline">
+                            Kembali ke halaman utama
+                        </p>
+                    </LinkReactDom>
+
                 </div>
+
             </section>
         </section>
     )

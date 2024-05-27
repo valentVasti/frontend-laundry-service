@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Tabs, Tab, Button, Accordion, AccordionItem, Spinner } from "@nextui-org/react";
+import { Tabs, Tab, Button, Accordion, AccordionItem, Spinner, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../../../server/Url';
+import { FaCopy } from 'react-icons/fa';
+import toast, { Toaster } from 'react-hot-toast';
 
 const formatDate = (dateString) => {
     const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -74,6 +76,15 @@ const OnWorkTransaction = () => {
         console.log(transaction)
     }, [transaction])
 
+    const handleCopyButton = (token) => {
+        navigator.clipboard.writeText(token)
+            .then(() => {
+                toast.success('Copied to clipboard!', { duration: 2000 }, { position: 'top-center' })
+            }, () => {
+                toast.error('Failed to copy', { duration: 2000 }, { position: 'top-center' })
+            });
+    };
+
     if (isLoading) return (<div className='w-full flex justify-center items-center mt-10'><Spinner /></div>)
 
     if (transaction.length === 0) {
@@ -88,6 +99,7 @@ const OnWorkTransaction = () => {
     } else {
         return (
             <>
+                <Toaster />
                 {transaction.map((data, index) => (
                     <Accordion key={index}>
                         <AccordionItem key="1" aria-label="Accordion 1" title={<AccordionTitle transaction_id={data.transaction.id} nomor_antrian={data.no_antrian} />} className='border-b-1 border-b-gray-400 mb-2'>
@@ -110,6 +122,17 @@ const OnWorkTransaction = () => {
                                             <h4>{data.status}</h4>
                                         </div>
                                     </div>
+                                    <div className='flex w-full h-auto justify-center items-center gap-3'>
+                                        <h3>Token: </h3>
+                                        <div className='flex items-center justify-center gap-2 flex-col'>
+                                            <h4 className='flex items-center gap-2'>{data.transaction.transaction_token.token}<FaCopy onClick={() => handleCopyButton(data.transaction.transaction_token.token)} /></h4>
+                                        </div>
+
+                                    </div>
+                                    {
+                                        data.transaction.transaction_token.is_used == 1 ? <h4 className='text-red-500 text-sm'>Token sudah digunakan</h4> : <h4 className='text-green-500 text-sm'>Token belum digunakan</h4>
+                                    }
+                                    <p className='text-sm text-center italic text-gray-600'>Berikan token kepada kasir untuk mengambil koin sejumlah transaksi dan konfirmasi kedatangan</p>
                                 </div>
                                 <hr className=' border-gray-300 my-2'></hr>
                                 <div className='flex flex-col w-full h-auto gap-2'>
@@ -141,6 +164,9 @@ const OnWorkTransaction = () => {
 }
 
 const TransactionHistoryItems = ({ data }) => {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    console.log(data)
+
     return (
         <div className='w-full h-auto border-b-gray-400 border-b-2 flex p-2'>
             <div className='h-full w-2/3 flex flex-col'>
@@ -150,8 +176,39 @@ const TransactionHistoryItems = ({ data }) => {
             </div>
             <div className='h-full w-1/3 flex flex-col items-end gap-1'>
                 <div>{'Rp ' + data.total + ',00'}</div>
-                <Button size='sm' color='primary'>Detail</Button>
+                <Button size='sm' color='primary' onPress={onOpen}>Detail</Button>
             </div>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">Detail Transaksi</ModalHeader>
+                            <ModalBody>
+                                <div className='w-full flex flex-col'>
+                                    <div className='flex flex-col w-full gap-3'>
+                                        {data.detail_transaction.map((data, index) => (
+                                            <div className='flex justify-center items-center'>
+                                                <div className='w-1/3'>
+                                                    <h3>{data.product.product_name}</h3>
+                                                    <p className='text-sm'>{data.quantity + 'x'}</p>
+                                                </div>
+                                                <div className='w-1/3 text-sm h-full flex items-center'>
+                                                    <h3>{'@Rp' + data.product.price + ',00'}</h3>
+                                                </div>
+                                                <div className='w-1/3 h-full flex items-center text-lg'>
+                                                    <h3>{'Rp' + data.total_price + ',00'}</h3>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </ModalBody>
+                            <ModalFooter>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </div>
     )
 }
@@ -211,13 +268,13 @@ const TransactionPage = () => {
 
     if (isDisabled) {
         return (
-            <section className='px-3 w-full h-full bg-white'>
+            <section className='px-3 w-full min-h-full max-h-auto bg-white'>
                 <Tabs aria-label="Options" variant='underlined' fullWidth isDisabled={isDisabled}>
                     <Tab key="photos" title="Antrian Berjalan">
                         <div className='h-[90%] bg-white w-full p-5 flex justify-center flex-col items-center gap-5'>
-                            <div className='text-2xl text-center'>Login untuk memulai melakukan transaksi!</div>
+                            <div className='text-2xl text-center'>Masuk untuk memulai melakukan transaksi!</div>
                             <Link to={'/login'}>
-                                <Button color='primary' size='lg'>LOGIN</Button>
+                                <Button color='primary' size='lg'>MASUK</Button>
                             </Link>
                         </div>
                     </Tab>
@@ -229,7 +286,7 @@ const TransactionPage = () => {
         )
     } else {
         return (
-            <section className='px-3 w-full h-full bg-white'>
+            <section className='px-3 w-full min-h-full max-h-auto bg-white'>
                 <Tabs aria-label="Options" variant='underlined' fullWidth isDisabled={isDisabled}>
                     <Tab key="photos" title="Antrian Berjalan">
                         <OnWorkTransaction />

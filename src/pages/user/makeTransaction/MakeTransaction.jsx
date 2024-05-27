@@ -319,7 +319,7 @@ const MakeTransaction = () => {
     if (cookies.__USERTOKEN__ != undefined) {
         if (isLoading) {
             return (
-                <div className='h-[90%] bg-white w-full p-5 flex justify-center flex-col items-center gap-5'>
+                <div className='h-full bg-white w-full p-5 flex justify-center flex-col items-center gap-5'>
                     <Spinner></Spinner>
                 </div>
             )
@@ -333,7 +333,7 @@ const MakeTransaction = () => {
                     )
                 }else{
                     return (
-                        <section className='w-full h-screen bg-blue-400 relative'>
+                        <section className='min-w-full max-h-auto h-screen bg-blue-400 relative'>
                             <div className='w-full absolute top-0 h-[10%] flex justify-left items-center text-2xl text-white font-bold px-5'>
                                 Buat Transaksi
                             </div>
@@ -391,10 +391,10 @@ const MakeTransaction = () => {
         }
     } else {
         return (
-            <div className='h-[90%] bg-white w-full p-5 flex justify-center flex-col items-center gap-5'>
-                <div className='text-2xl text-center'>Login untuk memulai melakukan transaksi!</div>
+            <div className='h-full bg-white w-full p-5 flex justify-center flex-col items-center gap-5'>
+                <div className='text-2xl text-center'>Masuk untuk memulai melakukan transaksi!</div>
                 <Link to={'/login'}>
-                    <Button color='primary' size='lg'>LOGIN</Button>
+                    <Button color='primary' size='lg'>MASUK</Button>
                 </Link>
             </div>
         )

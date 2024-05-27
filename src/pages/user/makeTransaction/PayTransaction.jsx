@@ -38,6 +38,8 @@ const PayTransaction = () => {
         'jenis_mesin': 'pengering',
         'status': ''
     })
+   
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleCopyButton = () => {
         navigator.clipboard.writeText(successData.token)
@@ -62,6 +64,8 @@ const PayTransaction = () => {
 
     const handleConfirmAndPayButton = async () => {
         // onOpen()
+        console.log(finalData[0])
+        setIsLoading(true)
         try {
             const response = await axios.post(BASE_URL + "/transaction", finalData[0], {
                 headers: {
@@ -95,6 +99,8 @@ const PayTransaction = () => {
             }
         } catch (error) {
             console.log(error);
+            setIsLoading(false)
+            toast.error(error.response.data.message);
         }
     }
 
@@ -122,8 +128,8 @@ const PayTransaction = () => {
                     <li>Toleransi kedatangan 5 menit setelah antrian anda, apabila tidak datang, maka akan <span className='font-bold'>antrian akan berlanjut dan nomor antrian anda akan hangus</span></li>
                 </ol>
                 <div className='fixed w-full flex justify-center items-center bottom-[3%] px-2 gap-2'>
-                    <Button className='text-white bg-gray-400 w-1/3' size='lg'>Batal</Button>
-                    <Button className='text-white w-2/3' color='primary' size='lg' onPress={handleConfirmAndPayButton}>Konfirmasi dan Bayar</Button>
+                    <Link to={'/makeTransaction'}><Button className='text-white bg-gray-400 w-1/3' size='lg'>Batal</Button></Link>
+                    <Button className='text-white w-2/3' color='primary' size='lg' onPress={handleConfirmAndPayButton} isLoading={isLoading}>Konfirmasi dan Bayar</Button>
                 </div>
             </section>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={true} isKeyboardDismissDisabled={true} hideCloseButton={true} placement='top'>
