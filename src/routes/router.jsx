@@ -228,20 +228,16 @@ const routerConfig = [
                 path: "",
                 element: <UserLayout />,
                 children: [
+                    // {
+                    //     path: "",
+                    //     element: <HomePage />
+                    // },
+                    // {
+                    //     path: "profile",
+                    //     element: <ProfilePage />
+                    // },
                     {
                         path: "",
-                        element: <HomePage />
-                    },
-                    {
-                        path: "home",
-                        element: <HomePage />
-                    },
-                    {
-                        path: "profile",
-                        element: <ProfilePage />
-                    },
-                    {
-                        path: "queue",
                         element: <QueuePage />
                     },
                     {

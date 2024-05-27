@@ -15,7 +15,7 @@ const MenuBottom = () => {
         {
             name: 'Beranda',
             icon: <FaHome />,
-            link: '/queue'
+            link: '/'
         },
         {
             name: 'Buat Transaksi',
