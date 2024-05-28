@@ -3,6 +3,7 @@
 import { nextui } from "@nextui-org/react";
 
 export default {
+  darkMode: false,
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",

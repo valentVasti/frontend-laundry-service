@@ -1,5 +1,5 @@
 import { Button, Chip, Divider, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner, useDisclosure, Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useStore } from '../../../server/store.jsx'
 import { useCookies } from 'react-cookie'
 import Swal from 'sweetalert2'
@@ -38,7 +38,25 @@ const PayTransaction = () => {
         'jenis_mesin': 'pengering',
         'status': ''
     })
-   
+    const [thresholdTime, setThresholdTime] = useState(0)
+
+    const fetchThresholdTime = async () => {
+        try {
+            const response = await axios.get(BASE_URL + "/thresholdTime", {
+                headers: {
+                    'Authorization': 'Bearer ' + cookies.__ADMINTOKEN__
+                },
+            });
+            setThresholdTime(response.data.data.threshold_time);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchThresholdTime()
+    }, [])
+
     const [isLoading, setIsLoading] = useState(false)
 
     const handleCopyButton = () => {
@@ -123,9 +141,9 @@ const PayTransaction = () => {
                 </div>
                 <ol className='list-disc text-sm text-gray-400 ps-7 pe-1 flex flex-col gap-1'>
                     <li>Nomor antrian didapat setelah menyelesaikan transaksi</li>
-                    <li>Diharapakan datang <span className='font-bold'>maksimal 10 menit</span> sebelum giliran anda</li>
+                    <li>Diharapakan datang 10 menit sebelum giliran anda</li>
                     <li>Transaksi yang sudah dilakukan <span className='font-bold'>tidak dapat dibatalkan</span></li>
-                    <li>Toleransi kedatangan 5 menit setelah antrian anda, apabila tidak datang, maka akan <span className='font-bold'>antrian akan berlanjut dan nomor antrian anda akan hangus</span></li>
+                    <li>Toleransi kedatangan <span className='font-bold'>{thresholdTime + ' menit '}</span>setelah antrian anda, apabila tidak datang, maka akan <span className='font-bold'>antrian akan berlanjut dan nomor antrian anda akan hangus</span></li>
                 </ol>
                 <div className='fixed w-full flex justify-center items-center bottom-[3%] px-2 gap-2'>
                     <Link to={'/makeTransaction'}><Button className='text-white bg-gray-400 w-1/3' size='lg'>Batal</Button></Link>
