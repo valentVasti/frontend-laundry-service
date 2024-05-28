@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Tabs, Tab, Chip, Divider } from "@nextui-org/react";
+import { Tabs, Tab, Chip, Divider, Button } from "@nextui-org/react";
 import PengeringList from './queueList/pengering/PengeringList';
 import PencuciList from './queueList/pencuci/PencuciList';
 import AntrianList from './queueList/antrian/AntrianList';
@@ -93,8 +93,10 @@ const TabsComponent = ({ selected }) => {
 const QueuePage = () => {
     const [cookies, setCookie, removeCookie] = useCookies()
     const [selectedTab, setSelectedTab] = useState('photos')
+    const [isLoading, setIsLoading] = useState(false)
 
     const hanldeLogout = async () => {
+        setIsLoading(true)
         try {
             const response = await axios.get(BASE_URL + '/logout', {
                 headers: {
@@ -106,6 +108,7 @@ const QueuePage = () => {
                 removeCookie('__USERTOKEN__')
                 removeCookie('__USERNAME__')
                 toast.success('Berhasil keluar!')
+                setIsLoading(false)
             }
         } catch (error) {
             console.log(error)
@@ -117,12 +120,11 @@ const QueuePage = () => {
         <section className='relative min-h-full max-h-auto w-full px-3 bg-white'>
             <ToastContainer
                 position="top-center"
-                autoClose={2000}
+                autoClose={1000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
-                draggable
                 theme="light"
                 transition:Slide
             />
@@ -144,7 +146,7 @@ const QueuePage = () => {
                     cookies.__USERTOKEN__ == undefined ? (
                         <Link to={'/login'} className='p-0 h-full w-1/5'><button className='self-start h-full bg-orange-500 rounded-xl p-2 text-white font-normal text-lg shadow-xl flex items-center gap-2 hover:bg-orange-600 transition ease-in-out duration-300'>Masuk</button></Link>
                     ) : (
-                        <button className='h-full w-1/5 justify-center bg-red-500 rounded-xl p-2 text-white font-normal text-2xl shadow-xl flex items-center gap-2 hover:bg-red-600 transition ease-in-out duration-300' onClick={() => hanldeLogout()}><MdLogout /></button>
+                        <Button className='h-full w-1/5 justify-center bg-red-500 rounded-xl p-0 text-white font-normal text-3xl shadow-xl flex items-center gap-2 hover:bg-red-600 transition ease-in-out duration-300' onClick={() => hanldeLogout()} isLoading={isLoading}><MdLogout /></Button>
                     )
                 }
             </div>
