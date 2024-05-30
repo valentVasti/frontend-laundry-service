@@ -122,17 +122,23 @@ const OnWorkTransaction = () => {
                                             <h4>{data.status}</h4>
                                         </div>
                                     </div>
-                                    <div className='flex w-full h-auto justify-center items-center gap-3'>
-                                        <h3>Token: </h3>
-                                        <div className='flex items-center justify-center gap-2 flex-col'>
-                                            <h4 className='flex items-center gap-2'>{data.transaction.transaction_token.token}<FaCopy onClick={() => handleCopyButton(data.transaction.transaction_token.token)} /></h4>
-                                        </div>
+                                    {data.transaction.transaction_token != null ?
+                                        <>
+                                            <div className='flex w-full h-auto justify-center items-center gap-3'>
+                                                <h3>Token: </h3>
+                                                <div className='flex items-center justify-center gap-2 flex-col'>
+                                                    <h4 className='flex items-center gap-2'>{data.transaction.transaction_token.token}<FaCopy onClick={() => handleCopyButton(data.transaction.transaction_token.token)} /></h4>
+                                                </div>
 
-                                    </div>
-                                    {
-                                        data.transaction.transaction_token.is_used == 1 ? <h4 className='text-red-500 text-sm'>Token sudah digunakan</h4> : <h4 className='text-green-500 text-sm'>Token belum digunakan</h4>
+                                            </div>
+                                            {
+                                                data.transaction.transaction_token.is_used == 1 ? <h4 className='text-red-500 text-sm'>Token sudah digunakan</h4> : <h4 className='text-green-500 text-sm'>Token belum digunakan</h4>
+                                            }
+                                            <p className='text-sm text-center italic text-gray-600'>Berikan token kepada kasir untuk mengambil koin sejumlah transaksi dan konfirmasi kedatangan</p>
+                                        </> :
+                                        <>
+                                        </>
                                     }
-                                    <p className='text-sm text-center italic text-gray-600'>Berikan token kepada kasir untuk mengambil koin sejumlah transaksi dan konfirmasi kedatangan</p>
                                 </div>
                                 <hr className=' border-gray-300 my-2'></hr>
                                 <div className='flex flex-col w-full h-auto gap-2'>
