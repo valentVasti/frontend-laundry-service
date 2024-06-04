@@ -36,7 +36,7 @@ const TransactionHistoryPage = () => {
 
   return (
     <div className='flex-col w-full flex gap-2 h-[670px]'>
-      <div className='text-2xl font-bold px-3'>MESIN</div>
+      <div className='text-2xl font-bold px-3'>TRANSACTION HISTORY</div>
       <div className='w-full h-full p-3 flex flex-col gap-4'>
         <div className='flex h-[50px] gap-2 items-center justify-start'>
           <DateRangePicker classNames={'w-1/4'} label={<p className='font-bold'>Filter By Date</p>} visibleMonths={2} onChange={handleChangeDateRange} labelPlacement='outside-left' />
