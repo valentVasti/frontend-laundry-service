@@ -3,9 +3,11 @@ import QueueNowCard from './QueueNowCard'
 import { BASE_URL } from '../../../server/Url';
 import axios from 'axios';
 import { pusher, eventName } from '../../../server/pusherService.jsx';
+import { useCookies } from 'react-cookie';
 
 const QueueNowList = () => {
     const [queueNow, setQueueNow] = useState([]);
+    const [cookies] = useCookies();
 
     const fetchNowQueue = async () => {
         try {
