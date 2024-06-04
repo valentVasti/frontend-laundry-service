@@ -7,15 +7,10 @@ import { useCookies } from 'react-cookie';
 
 const QueueNowList = () => {
     const [queueNow, setQueueNow] = useState([]);
-    const [cookies] = useCookies();
 
     const fetchNowQueue = async () => {
         try {
-            const response = await axios.get(BASE_URL + "/getQueuedQueue", {
-                headers: {
-                    Authorization: 'Bearer ' + cookies.__ADMINTOKEN__
-                }
-            });
+            const response = await axios.get(BASE_URL + "/getQueuedQueue");
             setQueueNow(response.data.data);
             console.log('Queue now', response.data.data)
         } catch (error) {

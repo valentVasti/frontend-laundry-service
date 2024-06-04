@@ -4,12 +4,10 @@ import axios from 'axios';
 import { BASE_URL } from '../../../../../server/Url';
 import { eventName, pusher } from '../../../../../server/pusherService';
 import { Spinner } from '@nextui-org/react';
-import { useCookies } from 'react-cookie';
 
 const AntrianList = () => {
   const [queueNow, setQueueNow] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
-  const [cookies, setCookie, removeCookie] = useCookies(['__USERTOKEN__'])
 
   const fetchNowQueue = async () => {
     try {
@@ -23,7 +21,6 @@ const AntrianList = () => {
   }
 
   useEffect(() => {
-    console.log(cookies.__USERTOKEN__)
     fetchNowQueue()
   }, [])
 
