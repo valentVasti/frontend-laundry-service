@@ -43,16 +43,16 @@ const PengeringCard = ({ data }) => {
 
     return (
         <div key={data.id} className='w-1/4 h-full p-2'>
-            <div className='w-full h-full bg-yellow-200 flex flex-col'>
-                <div className='w-full h-1/3 bg-yellow-500 flex text-4xl justify-center items-center'>
+            <div className='w-full h-full bg-gray-100 rounded-xl flex flex-col'>
+                <div className='w-full h-1/4 flex rounded-t-xl text-3xl justify-center items-center'>
                     {"MESIN " + data.mesin.kode_mesin}
                 </div>
-                <div className='w-full h-2/3 bg-yellow-400'>
-                    <div className='w-full h-2/3 bg-red-100 flex justify-center items-center text-6xl'>
+                <div className='w-full h-3/4 rounded-b-xl'>
+                    <div className='w-full h-1/2 bg-gray-200 flex justify-center items-center text-6xl'>
                         {data.nomor_antrian != 0 ? data.nomor_antrian : '--'}
                     </div>
-                    <div className='w-full h-1/3 flex justify-center items-center gap-2'>
-                        <Chip color='primary'>
+                    <div className='w-full h-1/2 flex justify-center items-center gap-2'>
+                        <Chip color='primary' className='text-3xl p-6'>
                             {`${timeLeft.minutes != 0 && !isNaN(timeLeft.minutes) == true ? timeLeft.minutes : '--'} : ${timeLeft.seconds != 0 && !isNaN(timeLeft.seconds) == true ? timeLeft.seconds : '--'}`}
                         </Chip>
                     </div>

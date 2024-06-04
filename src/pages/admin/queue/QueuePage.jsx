@@ -12,7 +12,7 @@ const QueueManagementPage = () => {
 
     return (
         <div className="w-full space-y-6 h-auto">
-            <Link to="/queueWindow" target='_blank'>
+            <Link to="/admin/queueWindow" target='_blank'>
                 <Button fullWidth className="text-md w-full" color='primary' isDisabled={!(isTodayOpened && !isTodayClosed)}>
                     Open Queue Window <IoMdOpen />
                 </Button>

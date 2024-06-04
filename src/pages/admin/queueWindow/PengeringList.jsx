@@ -47,12 +47,12 @@ const PengeringList = () => {
 
     return (
         <>
-            <div className='w-full h-1/6 bg-blue-100 flex justify-center items-center'>
-                <h1 className='text-2xl text-center font-bold'>PENGERING</h1>
+            <div className='w-full h-1/6 p-3  flex justify-center items-center'>
+                <h1 className='text-2xl w-full text-center font-bold bg-orange-400 py-1 px-4 rounded-full text-white'>PENGERING</h1>
             </div>
-            <div className='w-full h-5/6 bg-blue-200 flex'>
+            <div className='w-full h-5/6 flex py-3 px-2'>
                 {mesin.map((data) => (
-                    <PengeringCard key={data.id} data={data} setNotifyFromMachine={setNotifyFromMachine} notifyFromMachine={notifyFromMachine}/>
+                    <PengeringCard key={data.id} data={data} setNotifyFromMachine={setNotifyFromMachine} notifyFromMachine={notifyFromMachine} />
                 ))}
             </div>
         </>

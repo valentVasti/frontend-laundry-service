@@ -44,10 +44,10 @@ const PencuciList = () => {
 
     return (
         <>
-            <div className='w-full h-1/6 bg-blue-100 flex justify-center items-center'>
-                <h1 className='text-2xl text-center font-bold'>PENCUCI</h1>
+            <div className='w-full h-1/6 px-3 flex justify-center items-center'>
+                <h1 className='text-2xl w-full text-center font-bold bg-purple-500 py-1 px-4 rounded-full text-white'>PENCUCI</h1>
             </div>
-            <div className='w-full h-5/6 bg-blue-200 flex'>
+            <div className='w-full h-5/6 flex py-3 px-2'>
                 {mesin.map((data) => (
                     <PencuciCard key={data.id} data={data} />
                 ))}
