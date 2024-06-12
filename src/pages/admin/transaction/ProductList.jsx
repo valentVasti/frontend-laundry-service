@@ -10,7 +10,7 @@ const ProductList = ({ onClick }) => {
 
     const fetchProduct = async () => {
         try {
-            const response = await axios.get(BASE_URL + "/product", {
+            const response = await axios.get(BASE_URL + "/getActiveProduct", {
                 headers: {
                     'Authorization': 'Bearer ' + cookies.__ADMINTOKEN__
                 },

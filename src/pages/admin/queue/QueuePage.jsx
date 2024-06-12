@@ -23,13 +23,19 @@ const QueueManagementPage = () => {
                     <QueueTodayTable status={'IDLE'} />
                 </div>
                 <div className='space-y-3 w-full'>
-                    <Chip size='lg' color='danger' className='text-white'>Diantrikan</Chip>
+                    <Chip size='lg' color='secondary' className='text-white'>Diantrikan</Chip>
                     <QueueTodayTable status={'QUEUED'} />
                 </div>
             </div>
-            <div className='space-y-3 w-full'>
-                <Chip size='lg' color='success' className='text-white'>Antrian Selesai</Chip>
-                <QueueTodayTable status={'DONE'} />
+            <div className='flex gap-5'>
+                <div className='space-y-3 w-full'>
+                    <Chip size='lg' color='success' className='text-white'>Antrian Selesai</Chip>
+                    <QueueTodayTable status={'DONE'} />
+                </div>
+                <div className='space-y-3 w-full'>
+                    <Chip size='lg' color='danger' className='text-white'>Antrian Gagal</Chip>
+                    <QueueTodayTable status={'FAILED'} />
+                </div>
             </div>
         </div>
     )

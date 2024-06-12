@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState, useLayoutEffect, useCallback } from 'react';
 import {
     Table,
@@ -10,20 +10,26 @@ import {
     getKeyValue,
     Button,
     Chip,
-    Tooltip
+    Tooltip,
+    Dropdown,
+    DropdownTrigger,
+    DropdownMenu,
+    DropdownItem
 } from "@nextui-org/react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Input } from '@nextui-org/react';
 import { BASE_URL } from '../../../server/Url';
-import { FaEdit, FaQuestion } from "react-icons/fa";
+import { FaEdit, FaQuestion, FaRegDotCircle } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useCookies } from 'react-cookie';
+import { IoIosArrowDown } from 'react-icons/io';
 
-const ProductTable = () => {
+const ProductTable = ({ search }) => {
     const [cookies, setCookie, removeCookie] = useCookies(['__ADMINTOKEN__']);
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
+    const [filteredProduct, setFilteredProduct] = useState([])
     const [products, setProducts] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [productName, setProductName] = useState('')
@@ -41,6 +47,7 @@ const ProductTable = () => {
             });
             console.log(response.data.data);
             setProducts(response.data.data);
+            setFilteredProduct(response.data.data);
         } catch (error) {
             console.log(error)
         }
@@ -232,10 +239,26 @@ const ProductTable = () => {
         }
     }
 
-    useLayoutEffect(() => {
+    const searchProduct = () => {
+        if (search != '') {
+            const filteredArray = products.filter((item) => {
+                return item.product_name.toLowerCase().includes(search.toLowerCase()) || item.price.toString().toLowerCase().includes(search.toLowerCase())
+            })
+
+            setFilteredProduct(filteredArray);
+        } else {
+            setFilteredProduct(products)
+        }
+    }
+
+    useEffect(() => {
         fetchProduct()
     }, [])
 
+    useEffect(() => {
+        console.log(search)
+        searchProduct()
+    }, [search])
 
     // table header
     const columns = [
@@ -257,18 +280,57 @@ const ProductTable = () => {
         }
     ];
 
+    const formatPrice = (price) => {
+        const formattedPrice = price.toLocaleString('id-ID');
+        return 'Rp ' + formattedPrice + ',00';
+    }
+
+    const setProductStatus = async (id, status) => {
+        try {
+            const response = await axios.get(BASE_URL + `/product/${id}/${status}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + cookies.__ADMINTOKEN__
+                },
+            });
+
+            if (response.data.success) {
+                fetchProduct()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     // custom column
     const renderCell = useCallback((item, columnKey) => {
         const cellValue = getKeyValue(item, columnKey);
 
         switch (columnKey) {
+            case "price":
+                return formatPrice(cellValue);
             case "status":
-                const color = cellValue === 1 ? "success" : "error";
+                const color = cellValue === 1 ? "success" : "warning";
                 const text = cellValue === 1 ? "Active" : "Inactive";
                 return (
-                    <Chip color={color} className='text-white'>
-                        {text}
-                    </Chip>
+                    <Dropdown aria-label='status_dropdown'>
+                        <DropdownTrigger>
+                            <Chip color={color} className='text-white min-w-24 text-center' endContent={<div className='size-5 rounded-full bg-white flex justify-center items-center'><IoIosArrowDown color='black' /></div>}>
+                                <p className='me-2'>{text}</p>
+                            </Chip>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                            aria-label="Single selection example"
+                            variant="flat"
+                            disallowEmptySelection
+                        >
+                            <DropdownItem key="readyToUse" startContent={<FaRegDotCircle size={20} color='green' />} onPress={() => setProductStatus(item.id, 1)}>
+                                ACTIVE
+                            </DropdownItem>
+                            <DropdownItem key="maintenance" startContent={<FaRegDotCircle size={20} color='orange' />} onPress={() => setProductStatus(item.id, 0)}>
+                                INACTIVE
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                 );
             case "action":
                 if (item.product_name == 'Cuci' || item.product_name == 'Kering') {
@@ -299,7 +361,7 @@ const ProductTable = () => {
                 <TableHeader columns={columns}>
                     {(column) => <TableColumn key={column.key} width={column.key === "action" ? 40 : null} className={column.key === "action" ? 'text-center' : null}>{column.label}</TableColumn>}
                 </TableHeader>
-                <TableBody items={products} emptyContent="Tidak ada produk terdaftar!">
+                <TableBody items={filteredProduct} emptyContent="Tidak ada produk terdaftar!">
                     {(item) => (
                         <TableRow key={item.id}>
                             {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

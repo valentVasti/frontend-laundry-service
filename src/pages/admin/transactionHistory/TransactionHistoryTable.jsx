@@ -66,6 +66,11 @@ const TransactionHistoryTable = forwardRef((props, ref) => {
         fetchTransaction()
     }, [refresh])
 
+    const formatPrice = (price) => {
+        const formattedPrice = price.toLocaleString('id-ID');
+        return 'Rp ' + formattedPrice + ',00';
+    }
+
     // table header
     const columns = [
         {
@@ -86,7 +91,7 @@ const TransactionHistoryTable = forwardRef((props, ref) => {
         },
         {
             key: "total",
-            label: "TOTAL KARYAWAN",
+            label: "TOTAL HARGA",
         },
         {
             key: "paid_sum",
@@ -172,6 +177,12 @@ const TransactionHistoryTable = forwardRef((props, ref) => {
                         <Button color='primary' radius='lg' size="md" onPress={() => openModal(item.id)}>DETAIL</Button>
                     </div>
                 );
+            case "total":
+                return formatPrice(cellValue)
+            case "paid_sum":
+                return formatPrice(cellValue)
+            case "change":
+                return formatPrice(cellValue)
             default:
                 return cellValue;
         }

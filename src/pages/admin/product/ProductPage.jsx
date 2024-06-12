@@ -15,6 +15,7 @@ const ProductPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['__ADMINTOKEN__']);
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
+  const [search, setSearch] = useState('')
   const [productName, setProductName] = useState('')
   const [price, setPrice] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -33,9 +34,7 @@ const ProductPage = () => {
   }
 
   useLayoutEffect(() => {
-
     fetchProduct()
-
   }, [])
 
   const handleOnInputProductName = (e) => {
@@ -90,18 +89,22 @@ const ProductPage = () => {
     }
   }
 
+  const searchProduct = (e) => {
+    setSearch(e.target.value)
+  }
+
   return (
     <div className='flex-col w-full flex gap-2 h-[670px]'>
       <div className='text-2xl font-bold px-3'>PRODUCT</div>
       <div className='w-full h-full p-3 flex flex-col gap-4'>
-        <div className='flex h-[50px] gap-2'>
-          <Input variant='bordered' radius='lg' size='sm' className='w-full h-full' placeholder='Cari produk...'>Search</Input>
+        <div className='flex h-auto gap-2'>
+          <Input variant='bordered' radius='lg' size='lg' className='w-full' placeholder='Cari produk...' onChange={searchProduct}>Search</Input>
           <div className='w-1/6 h-full flex justify-center items-center '>
             <Button color='primary' className='h-full' radius='lg' onPress={onOpen}><IoIosAddCircle size={20} />TAMBAH PRODUK</Button>
           </div>
         </div>
         <div className='w-full h-full'>
-          <ProductTable />
+          <ProductTable search={search} />
         </div>
       </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

@@ -28,6 +28,11 @@ const SelectedProductCard = ({ selectedProduct, countPayment, removeProduct }) =
         removeProduct(selectedProduct.id, totalPrice);
     }
 
+    const formatPrice = (price) => {
+        const formattedPrice = price.toLocaleString('id-ID');
+        return 'Rp ' + formattedPrice + ',00';
+    }
+
     return (
         <div className='w-full h-[150px] bg-gray-100 flex flex-col'>
             <div className='w-full h-2/3 bg-gray-100 flex'>
@@ -41,7 +46,7 @@ const SelectedProductCard = ({ selectedProduct, countPayment, removeProduct }) =
                 </div>
             </div>
             <div className='w-full h-1/3 bg-gray-300 flex'>
-                <div className='h-full w-1/2 text-xl flex justify-center items-center'>{totalPrice}</div>
+                <div className='h-full w-1/2 text-xl flex justify-center items-center'>{formatPrice(totalPrice)}</div>
                 <Button color='danger' radius='none' isIconOnly className='h-full w-1/2' onClick={handleRemove}>
                     <FaRegTrashAlt size={25}/>
                 </Button>

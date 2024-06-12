@@ -18,7 +18,7 @@ import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
-const OpenCloseQueueTable = ({triggerFetch}) => {
+const OpenCloseQueueTable = ({ triggerFetch }) => {
     const [cookies, setCookie, removeCookie] = useCookies(['__ADMINTOKEN__']);
     const [items, setItems] = useState([])
 
@@ -65,34 +65,10 @@ const OpenCloseQueueTable = ({triggerFetch}) => {
         const cellValue = getKeyValue(item, columnKey);
 
         switch (columnKey) {
-            case "status_maintenance":
-                const color = cellValue ? "success" : "warning";
-                const text = cellValue ? "Ready to use" : "Maintenance";
-                return (
-                    <Dropdown>
-                        <DropdownTrigger>
-                            <Chip color={color} className='text-white min-w-28 text-center'>
-                                {text}
-                            </Chip>
-                        </DropdownTrigger>
-                        <DropdownMenu
-                            aria-label="Single selection example"
-                            variant="flat"
-                            disallowEmptySelection
-                            selectionMode="single"
-                        >
-                            <DropdownItem key="text" color='success'>READY TO USE</DropdownItem>
-                            <DropdownItem key="text" color='warning'>MAINTENANCE</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                );
-            case "action":
-                return (
-                    <div className='flex gap-2'>
-                        <Button color='primary' radius='full'><FaEdit size={20} /></Button>
-                        <Button color='danger' radius='full' onPress={() => handleDeleteProduct(item.id)}><MdDelete size={20} /></Button>
-                    </div>
-                );
+            case "user_id_opener":
+                return item.user_opener.id + ' - ' + item.user_opener.name;
+            case "user_id_closer":
+                return item.user_closer.id + ' - ' + item.user_closer.name;
             default:
                 return cellValue;
         }

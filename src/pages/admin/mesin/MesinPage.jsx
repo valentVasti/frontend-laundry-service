@@ -18,6 +18,7 @@ const MesinPage = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const [refresh, setRefresh] = useState(false)
+  const [search, setSearch] = useState('')
   const [kodeMesin, setKodeMesin] = useState('')
   const [jenisMesin, setJenisMesin] = useState('')
   const [identifier, setIdentifier] = useState('')
@@ -119,18 +120,22 @@ const MesinPage = () => {
     }
   }
 
+  const searchMesin = (e) => {
+    setSearch(e.target.value)
+  }
+
   return (
     <div className='flex-col w-full flex gap-2 h-[670px]'>
       <div className='text-2xl font-bold px-3'>MESIN</div>
       <div className='w-full h-full p-3 flex flex-col gap-4'>
-        <div className='flex h-[50px] gap-2'>
-          <Input variant='bordered' radius='lg' size='sm' className='w-full h-full' placeholder='Cari mesin...'>Search</Input>
+        <div className='flex h-auto gap-2'>
+          <Input variant='bordered' radius='lg' size='lg' className='w-full h-full' placeholder='Cari mesin...' onChange={searchMesin}>Search</Input>
           <div className='w-1/6 h-full flex justify-center items-center '>
             <Button color='primary' className='h-full' radius='lg' onPress={onOpen}><IoIosAddCircle size={20} />TAMBAH MESIN</Button>
           </div>
         </div>
         <div className='w-full h-full'>
-          <MesinTable refresh={refresh} />
+          <MesinTable refresh={refresh} search={search} />
         </div>
       </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

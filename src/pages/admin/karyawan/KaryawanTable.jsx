@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState, useLayoutEffect, useCallback } from 'react';
 import {
     Table,
@@ -22,11 +22,12 @@ import { RadioGroup, Radio, Input } from "@nextui-org/react";
 import Swal from 'sweetalert2';
 import { useCookies } from 'react-cookie';
 
-const KaryawanTable = ({ refresh }) => {
+const KaryawanTable = ({ refresh, search }) => {
     const [cookies, setCookie, removeCookie] = useCookies(['__ADMINTOKEN__']);
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
     const [karyawan, setKaryawan] = useState([])
+    const [filteredKaryawan, setFilteredKaryawan] = useState([])
     const [idKaryawan, setIdKaryawan] = useState('')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -63,6 +64,7 @@ const KaryawanTable = ({ refresh }) => {
             });
             console.log(response.data.data);
             setKaryawan(response.data.data);
+            setFilteredKaryawan(response.data.data);
         } catch (error) {
             console.log(error)
         }
@@ -154,7 +156,6 @@ const KaryawanTable = ({ refresh }) => {
                         'Authorization': 'Bearer ' + cookies.__ADMINTOKEN__
                     }
                 });
-            console.log(response.data);
             fetchKaryawan()
             onClose()
             setIsLoading(false)
@@ -226,15 +227,32 @@ const KaryawanTable = ({ refresh }) => {
 
     const handleOnInputEmail = (e) => {
         setEmail(e.target.value)
-    } 
+    }
 
     const handleOnInputPhoneNum = (e) => {
         setPhoneNum(e.target.value)
     }
 
-    useLayoutEffect(() => {
+    const searchKaryawan = () => {
+        if (search != '') {
+            const filteredArray = karyawan.filter((item) => {
+                return item.name.toLowerCase().includes(search.toLowerCase()) || item.email.toLowerCase().includes(search.toLowerCase()) || item.phone_num.toLowerCase().includes(search.toLowerCase())
+            })
+
+            setFilteredKaryawan(filteredArray);
+            console.log(filteredArray)
+        } else {
+            setFilteredKaryawan(karyawan)
+        }
+    }
+
+    useEffect(() => {
         fetchKaryawan()
     }, [refresh])
+
+    useEffect(() => {
+        searchKaryawan()
+    }, [search])
 
     // table header
     const columns = [
@@ -256,7 +274,6 @@ const KaryawanTable = ({ refresh }) => {
         }
     ];
 
-
     const openModal = (id, action) => {
         fetchUserById(id)
 
@@ -266,7 +283,6 @@ const KaryawanTable = ({ refresh }) => {
             setModalAction('edit')
         }
         onOpen()
-
     }
 
     const clearState = () => {
@@ -301,10 +317,10 @@ const KaryawanTable = ({ refresh }) => {
                 <TableHeader columns={columns}>
                     {(column) => <TableColumn key={column.key} width={column.key === "action" ? 40 : null} className={column.key === "action" || column.key === "durasi_penggunaan" || column.key === "status_maintenance" ? 'text-center' : null}>{column.label}</TableColumn>}
                 </TableHeader>
-                <TableBody items={karyawan} emptyContent="Tidak ada karyawan terdaftar!">
+                <TableBody items={filteredKaryawan} emptyContent="Tidak ada karyawan terdaftar!">
                     {(item) => (
                         <TableRow key={item.id}>
-                            {(columnKey) => <TableCell className='text-center'>{renderCell(item, columnKey)}</TableCell>}
+                            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
                         </TableRow>
                     )}
                 </TableBody>

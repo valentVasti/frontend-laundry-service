@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState, useLayoutEffect, useCallback } from 'react';
 import {
     Table,
@@ -22,11 +22,12 @@ import { RadioGroup, Radio, Input } from "@nextui-org/react";
 import Swal from 'sweetalert2';
 import { useCookies } from 'react-cookie';
 
-const MesinTable = ({ refresh }) => {
+const MesinTable = ({ refresh, search }) => {
     const [cookies, setCookie, removeCookie] = useCookies(['__ADMINTOKEN__']);
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
     const [items, setItems] = useState([])
+    const [filteredMesin, setFilteredMesin] = useState([])
     const [idMesin, setIdMesin] = useState('')
     const [kodeMesin, setKodeMesin] = useState('')
     const [kodeMesinTitle, setKodeMesinTitle] = useState('--')
@@ -83,6 +84,7 @@ const MesinTable = ({ refresh }) => {
             });
             console.log(response.data.data);
             setItems(response.data.data);
+            setFilteredMesin(response.data.data)
         } catch (error) {
             console.log(error)
         }
@@ -242,9 +244,27 @@ const MesinTable = ({ refresh }) => {
         }
     }
 
-    useLayoutEffect(() => {
+    const searchMesin = () => {
+        if (search != '') {
+            const filteredArray = items.filter((item) => {
+                return item.kode_mesin.toLowerCase().includes(search.toLowerCase()) || item.jenis_mesin.toLowerCase().includes(search.toLowerCase()) || item.identifier.toLowerCase().includes(search.toLowerCase()) || item.durasi_penggunaan.toString().toLowerCase().includes(search.toLowerCase())
+            })
+
+            setFilteredMesin(filteredArray);
+            console.log(filteredArray)
+        } else {
+            setFilteredMesin(items)
+        }
+    }
+
+    useEffect(() => {
         fetchMesin()
     }, [refresh])
+
+    useEffect(() => {
+        console.log(search)
+        searchMesin()
+    }, [search])
 
     // table header
     const columns = [
@@ -343,7 +363,7 @@ const MesinTable = ({ refresh }) => {
             case "action":
                 return (
                     <div className='flex gap-2'>
-                        <Button color='primary' radius='full' onPress={() => openModal(item.id, 'edit')}><FaEdit size={20} /></Button>                       
+                        <Button color='primary' radius='full' onPress={() => openModal(item.id, 'edit')}><FaEdit size={20} /></Button>
                         <Button color='danger' radius='full' onPress={() => openModal(item.id, 'delete')}><MdDelete size={20} /></Button>
                     </div>
                 );
@@ -358,7 +378,7 @@ const MesinTable = ({ refresh }) => {
                 <TableHeader columns={columns}>
                     {(column) => <TableColumn key={column.key} width={column.key === "action" ? 40 : null} className={column.key === "action" || column.key === "durasi_penggunaan" || column.key === "status_maintenance" ? 'text-center' : null}>{column.label}</TableColumn>}
                 </TableHeader>
-                <TableBody items={items} emptyContent="Tidak ada mesin terdaftar!">
+                <TableBody items={filteredMesin} emptyContent="Tidak ada mesin terdaftar!">
                     {(item) => (
                         <TableRow key={item.id}>
                             {(columnKey) => <TableCell className={columnKey === "durasi_penggunaan" || columnKey === "kode_mesin" || columnKey === "status_maintenance" ? 'text-center' : ''}>{renderCell(item, columnKey)}</TableCell>}

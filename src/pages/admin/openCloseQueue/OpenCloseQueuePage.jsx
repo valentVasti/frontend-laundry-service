@@ -96,8 +96,8 @@ const OpenCloseQueuePage = () => {
     <div className='flex-col w-full flex gap-2 h-[670px]'>
       <div className='text-2xl font-bold px-3'>OPEN QUEUE LOG</div>
       <div className='w-full h-full p-3 flex flex-col gap-4'>
-        <div className='flex h-[50px] gap-2'>
-          <Input variant='bordered' radius='lg' size='sm' className='w-full h-full' placeholder='Cari log...'>Search</Input>
+        <div className='flex h-auto gap-2'>
+          <Input variant='bordered' radius='lg' size='lg' className='w-full h-full' placeholder='Cari log...'>Search</Input>
           <div className='w-2/6 h-full flex justify-center items-center '>
             <Button color='success' className='h-full w-full text-white' radius='lg' onPress={onOpen} isDisabled={isTodayOpened}>BUKA ANTRIAN</Button>
           </div>

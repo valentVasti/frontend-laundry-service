@@ -1,6 +1,11 @@
 import React from 'react'
 
 const ProductCard = ({ product, onClick }) => {
+
+    const formatPrice = (price) => {
+        const formattedPrice = price.toLocaleString('id-ID');
+        return 'Rp ' + formattedPrice + ',00';
+    }
     
     const handleClick = () => {
         onClick(product);
@@ -13,7 +18,7 @@ const ProductCard = ({ product, onClick }) => {
                     <h1>{product.product_name}</h1>
                 </div>
                 <div className='w-full h-1/4 bg-gray-300 p-2 text-xl'>
-                    <h1>{product.price}</h1>
+                    <h1>{formatPrice(product.price)}</h1>
                 </div>
             </div>
         </div>

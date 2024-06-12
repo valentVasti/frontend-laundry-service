@@ -21,6 +21,7 @@ const KaryawanPage = () => {
     const [email, setEmail] = useState('')
     const [phoneNum, setPhoneNum] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const [search, setSearch] = useState('')
 
     const handleOnInputName = (e) => {
         setName(e.target.value)
@@ -113,18 +114,22 @@ const KaryawanPage = () => {
         }
     }
 
+    const searchKaryawan = (e) => {
+        setSearch(e.target.value)
+    }
+
     return (
         <div className='flex-col w-full flex gap-2 h-[670px]'>
             <div className='text-2xl font-bold px-3'>DATA KARYAWAN</div>
             <div className='w-full h-full p-3 flex flex-col gap-4'>
-                <div className='flex h-[50px] gap-2'>
-                    <Input variant='bordered' radius='lg' size='sm' className='w-full h-full' placeholder='Cari karyawan...'>Search</Input>
+                <div className='flex h-auto gap-2'>
+                    <Input variant='bordered' radius='lg' size='lg' className='w-full h-full' placeholder='Cari karyawan...' onChange={searchKaryawan}>Search</Input>
                     <div className='w-1/6 h-full flex justify-center items-center '>
                         <Button color='primary' className='h-full' radius='lg' onPress={onOpen}><IoIosAddCircle size={20} />TAMBAH KARYAWAN</Button>
                     </div>
                 </div>
                 <div className='w-full h-full'>
-                    <KaryawanTable refresh={refresh} />
+                    <KaryawanTable refresh={refresh} search={search} />
                 </div>
             </div>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

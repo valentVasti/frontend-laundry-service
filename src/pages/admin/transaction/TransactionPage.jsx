@@ -231,6 +231,15 @@ const TransactionPage = () => {
     }
   }
 
+  const onCloseModal = () => {
+    onClose();
+    setToken('');
+    setChange('-');
+    setTokenInvalid(false);
+    setTokenError('');
+    setTransactionTokenData([{}]);
+  }
+
   const formatDate = (dateString) => {
     const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -244,6 +253,11 @@ const TransactionPage = () => {
     const seconds = ("0" + date.getSeconds()).slice(-2);
 
     return `${dayName}, ${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+  }
+
+  const formatPrice = (price) => {
+    const formattedPrice = price.toLocaleString('id-ID');
+    return 'Rp ' + formattedPrice + ',00';
   }
 
   if (isTodayOpened && !isTodayClosed) {
@@ -303,7 +317,7 @@ const TransactionPage = () => {
           {/* pay button */}
           <div className='w-full h-1/4 bg-gray-200 rounded-md flex flex-col p-2'>
             <div className='w-full h-1/2 flex justify-center items-center text-2xl'>
-              {totalPayment}
+              {formatPrice(totalPayment)}
             </div>
             <div className='w-full h-1/2 p-2'>
               <Button fullWidth color='success' className='text-xl' onPress={() => {
@@ -312,7 +326,7 @@ const TransactionPage = () => {
               }} isDisabled={payButton}>BAYAR</Button>
             </div>
 
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={onCloseModal}>
               {
                 openModal == 'PAYMENT' ? (
                   <ModalContent>
@@ -330,8 +344,8 @@ const TransactionPage = () => {
                           </RadioGroup>
 
                           <div>
-                            <div className='text-2xl'><span>Total Harga: </span>{totalPayment}</div>
-                            <div className={'text-lg ' + changeClass}><span>Kembalian: </span>{change}</div>
+                            <div className='text-2xl'><span>Total Harga: </span>{formatPrice(totalPayment)}</div>
+                            <div className={'text-lg ' + changeClass}><span>Kembalian: </span>{formatPrice(change)}</div>
                           </div>
 
                           <Input type="number" label="Jumlah Bayar" placeholder="0.00" onChange={countChange} className={changeClass} />

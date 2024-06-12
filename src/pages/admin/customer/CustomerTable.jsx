@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState, useLayoutEffect, useCallback } from 'react';
 import {
     Table,
@@ -19,11 +19,12 @@ import { Input } from "@nextui-org/react";
 import Swal from 'sweetalert2';
 import { useCookies } from 'react-cookie';
 
-const CustomerTable = ({ refresh }) => {
+const CustomerTable = ({ refresh, search }) => {
     const [cookies] = useCookies(['__ADMINTOKEN__']);
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
     const [customer, setCustomer] = useState([])
+    const [filteredCustomer, setFilteredCustomer] = useState([])
     const [idCustomer, setIdCustomer] = useState('')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -60,6 +61,7 @@ const CustomerTable = ({ refresh }) => {
             });
             console.log(response.data.data);
             setCustomer(response.data.data);
+            setFilteredCustomer(response.data.data);
         } catch (error) {
             console.log(error)
         }
@@ -68,10 +70,10 @@ const CustomerTable = ({ refresh }) => {
     const handleEditCustomer = async (id) => {
         setIsLoading(true)
         try {
-            const response = await axios.put(BASE_URL + "/user/" + id, {
-                name: kodeMesin,
-                email: jenisMesin,
-                phone_num: identifier,
+            const response = await axios.put(BASE_URL + "/user/update/" + id, {
+                name: name,
+                email: email,
+                phone_num: phoneNum,
             }, {
                 headers: {
                     'Authorization': 'Bearer ' + cookies.__ADMINTOKEN__
@@ -224,9 +226,27 @@ const CustomerTable = ({ refresh }) => {
         setPhoneNum(e.target.value)
     }
 
-    useLayoutEffect(() => {
+    const searchCustomer = () => {
+        if (search != '') {
+            const filteredArray = customer.filter((customer) => {
+                return customer.name.toLowerCase().includes(search.toLowerCase()) || customer.email.toLowerCase().includes(search.toLowerCase()) || customer.phone_num.toLowerCase().includes(search.toLowerCase())
+            })
+
+            setFilteredCustomer(filteredArray);
+            console.log(filteredArray)
+        }else{
+            setFilteredCustomer(customer)
+        }
+    }
+
+    useEffect(() => {
         fetchCustomer()
     }, [refresh])
+
+    useEffect(() => {
+        console.log(search)
+        searchCustomer()
+    }, [search])
 
     // table header
     const columns = [
@@ -293,10 +313,10 @@ const CustomerTable = ({ refresh }) => {
                 <TableHeader columns={columns}>
                     {(column) => <TableColumn key={column.key} width={column.key === "action" ? 40 : null} className={column.key === "action" || column.key === "durasi_penggunaan" || column.key === "status_maintenance" ? 'text-center' : null}>{column.label}</TableColumn>}
                 </TableHeader>
-                <TableBody items={customer} emptyContent="Tidak ada customer terdaftar!">
+                <TableBody items={filteredCustomer} emptyContent="Tidak ada customer terdaftar!">
                     {(item) => (
                         <TableRow key={item.id}>
-                            {(columnKey) => <TableCell className='text-center'>{renderCell(item, columnKey)}</TableCell>}
+                            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
                         </TableRow>
                     )}
                 </TableBody>
