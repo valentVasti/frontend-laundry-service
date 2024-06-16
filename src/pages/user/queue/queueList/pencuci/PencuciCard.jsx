@@ -1,8 +1,10 @@
 import { Chip } from '@nextui-org/react'
+import clsx from 'clsx';
 import React, { useEffect, useState } from 'react'
 
 const PencuciCard = ({ data }) => {
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+    console.log(data)
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -42,10 +44,29 @@ const PencuciCard = ({ data }) => {
         return timeLeft
     }
 
+    const queueStatus = () => {
+        switch (data.status) {
+            case 'IDLE':
+                return 'bg-green-500'
+
+            case 'ONWORK':
+                if (data.transaction.transaction_token == null) {
+                    return 'bg-red-500'
+                } else if (data.transaction.transaction_token.is_used) {
+                    return 'bg-red-500'
+                } else if (data.transaction.transaction_token.is_used == false) {
+                    return 'bg-yellow-500'
+                }
+
+            default:
+                return 'bg-green-500'
+        }
+    }
+
     return (
         <section className='bg-slate-200 shadow-md shadow-gray-100 h-auto rounded-xl relative'>
             <div id='card-header' className='text-center border-b-1 border-black top-0 w-full py-2 flex items-center justify-center gap-2'>
-                <div className={data.status == 'IDLE' ? 'size-3 bg-green-400 rounded-full animate-pulse' : 'size-3 bg-red-400 rounded-full animate-pulse'}></div>
+                <div className={clsx('size-3 rounded-full animate-pulse', queueStatus())}></div>
                 <h1>{"MESIN "}</h1>
                 <Chip className='text-white' color='secondary'>{data.mesin.kode_mesin}</Chip>
             </div>

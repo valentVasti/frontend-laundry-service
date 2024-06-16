@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Tabs, Tab, Chip, Divider, Button } from "@nextui-org/react";
+import { Tabs, Tab, Chip, Divider, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 import PengeringList from './queueList/pengering/PengeringList';
 import PencuciList from './queueList/pencuci/PencuciList';
 import AntrianList from './queueList/antrian/AntrianList';
@@ -10,8 +10,10 @@ import { BASE_URL } from '../../../server/Url';
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { IoIosInformationCircleOutline } from 'react-icons/io';
 
-const TabsComponent = ({ selected }) => {
+const TabsComponent = ({ selected, thresholdTime }) => {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     return (
         <>
@@ -37,6 +39,11 @@ const TabsComponent = ({ selected }) => {
                             <div className=' bg-red-500 text-white rounded-full size-3'>
                             </div>
                             <h1>Sedang Digunakan</h1>
+                        </div>
+                        <div className='flex justify-center items-center gap-1'>
+                            <div className=' bg-yellow-500 text-white rounded-full size-3'>
+                            </div>
+                            <h1 className='flex items-center gap-1'>Menunggu konsumen<IoIosInformationCircleOutline size={20} className='text-gray-400' onClick={() => onOpen()} /></h1>
                         </div>
                     </div>
                     <PencuciList />
@@ -64,6 +71,11 @@ const TabsComponent = ({ selected }) => {
                             </div>
                             <h1>Sedang Digunakan</h1>
                         </div>
+                        <div className='flex justify-center items-center gap-1'>
+                            <div className=' bg-yellow-500 text-white rounded-full size-3'>
+                            </div>
+                            <h1 className='flex items-center gap-1'>Menunggu konsumen<IoIosInformationCircleOutline size={20} className='text-gray-400' onClick={() => onOpen()} /></h1>
+                        </div>
                     </div>
                     <PengeringList />
                 </div>
@@ -83,9 +95,40 @@ const TabsComponent = ({ selected }) => {
                             Nomor Antrian
                         </Chip>
                     </div>
+                    <div className='flex justify-start items-center gap-2 px-3 my-3 flex-wrap'>
+                        <div className='flex justify-center items-center gap-1'>
+                            <div className=' bg-green-500 text-white size-4 rounded-tr-md rounded-bl-md'>
+                            </div>
+                            <h1>Konsumen sudah datang</h1>
+                        </div>
+                        <div className='flex justify-center items-center gap-1'>
+                            <div className=' bg-yellow-500 text-white size-4 rounded-tr-md rounded-bl-md'>
+                            </div>
+                            <h1>Konsumen belum datag</h1>
+                        </div>
+                    </div>
                     <AntrianList />
                 </div>
             )}
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex gap-2 items-center"><div className=' bg-yellow-500 text-white rounded-full size-4'></div>Menunggu Konsumen</ModalHeader>
+                            <ModalBody>
+                                <p>
+                                    Pelanggan dengan nomor antrean terkait<span className='font-bold'> belum melakukan konfirmasi kedatangan</span>. Apabila sudah melewati batas waktu kedatangan <span className='font-bold'>({thresholdTime} menit)</span>, maka <span className='font-bold'>antrean akan dilewati.</span>
+                                </p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="danger" fullWidth onPress={onClose}>
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </>
     );
 }
@@ -94,6 +137,24 @@ const QueuePage = () => {
     const [cookies, setCookie, removeCookie] = useCookies()
     const [selectedTab, setSelectedTab] = useState('photos')
     const [isLoading, setIsLoading] = useState(false)
+    const [thresholdTime, setThresholdTime] = useState(0)
+
+    const fetchThresholdTime = async () => {
+        try {
+            const response = await axios.get(BASE_URL + "/thresholdTime", {
+                headers: {
+                    'Authorization': 'Bearer ' + cookies.__ADMINTOKEN__
+                },
+            });
+            setThresholdTime(response.data.data.threshold_time);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchThresholdTime()
+    }, [])
 
     const hanldeLogout = async () => {
         setIsLoading(true)
@@ -160,13 +221,13 @@ const QueuePage = () => {
             {/* <div className="flex w-[500px] flex-col sticky z-20 bottom-0 right-0 px-4"> */}
             <Tabs aria-label="Options" fullWidth={true} onSelectionChange={(e) => { setSelectedTab(e) }}>
                 <Tab key="pencuci" title="Pencuci">
-                    <TabsComponent selected={selectedTab} />
+                    <TabsComponent selected={selectedTab} thresholdTime={thresholdTime} />
                 </Tab>
                 <Tab key="pengering" title="Pengering">
-                    <TabsComponent selected={selectedTab} />
+                    <TabsComponent selected={selectedTab} thresholdTime={thresholdTime} />
                 </Tab>
                 <Tab key="antrian" title="Antrian">
-                    <TabsComponent selected={selectedTab} />
+                    <TabsComponent selected={selectedTab} thresholdTime={thresholdTime} />
                 </Tab>
             </Tabs>
             {/* </div> */}

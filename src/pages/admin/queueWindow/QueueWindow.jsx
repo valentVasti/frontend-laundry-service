@@ -35,6 +35,20 @@ const QueueWindow = () => {
                         <img src={logo} className='h-full rounded-b-xl p-2' />
                     </div>
                 </div>
+                <div className='w-auto h-full relative flex items-center gap-5'>
+                    <div className='flex items-center gap-2'>
+                        <div className='h-8 w-5 rounded-r-xl bg-yellow-500'></div>
+                        <p>Konsumen<br/>Belum Datang</p>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <div className='h-8 w-5 rounded-r-xl bg-green-500'></div>
+                        <p>Konsumen<br/>Sudah Datang</p>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <div className='h-8 w-5 rounded-r-xl bg-gray-500'></div>
+                        <p>Antrean Kosong</p>
+                    </div>
+                </div>
                 <div className='space-x-3'>
                     <Chip size="lg" className="text-2xl">
                         <div className="flex items-center gap-3">
