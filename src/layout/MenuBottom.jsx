@@ -23,7 +23,7 @@ const MenuBottom = () => {
             link: '/makeTransaction'
         },
         {
-            name: 'Transaksi',
+            name: 'Daftar Transaksi',
             icon: <CgNotes />,
             link: '/transaction'
         },
