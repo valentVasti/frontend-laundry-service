@@ -160,7 +160,7 @@ const QueueTodayTable = ({ status }) => {
     }, [])
 
     useEffect(() => {
-        console.log('subscribing to channel "queue-channel" ...')
+        console.log('subscribing to channel "queue-channel" on ' + status + ' ...')
         // pusher listener
         const channel = pusher.subscribe('queue-channel');
         channel.bind(eventName.notifyNextOrDoneQueue, function () {
