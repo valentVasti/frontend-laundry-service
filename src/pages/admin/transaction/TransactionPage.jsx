@@ -205,7 +205,6 @@ const TransactionPage = () => {
               Authorization: 'Bearer ' + cookies.__ADMINTOKEN__
             }
           });
-        console.log(response.data.success);
         if (response.data.success) {
           setTransactionTokenData(response.data.data['transaction']);
           setIsLoading(false);
@@ -392,9 +391,9 @@ const TransactionPage = () => {
                                   <div className='flex flex-col w-full'>
                                     {getTransactionData(transactionTokenData).product.length !== 0 ? (
                                       getTransactionData(transactionTokenData).product.map((item, index) => (
-                                        <div className='flex justify-between items-center w-full h-auto'>
+                                        <div key={index} className='flex justify-between items-center w-full h-auto'>
                                           <p className='text-lg'>{item.product.product_name}</p>
-                                          <p>{item.product.quantity + 'x'}</p>
+                                          <p>{item.quantity + 'x'}</p>
                                         </div>
                                       ))
                                     ) : (
