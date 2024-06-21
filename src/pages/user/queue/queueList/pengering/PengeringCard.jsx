@@ -1,9 +1,11 @@
 import { Chip } from '@nextui-org/react'
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie';
 
 const PengeringCard = ({ data }) => {
     const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+    const [cookies, setCookie, removeCookie] = useCookies();
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -62,9 +64,22 @@ const PengeringCard = ({ data }) => {
         }
     }
 
+    const queueBelongsTo = () => {
+        if (data.transaction != null) {
+            if (data.transaction.user_id == cookies.__USERID__) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+
     return (
         <section className='bg-slate-200 shadow-md shadow-gray-100 h-auto rounded-xl relative'>
-            <div id='card-header' className='text-center border-b-1 border-black top-0 w-full py-2 flex items-center justify-center gap-2'>
+            <div id='card-header' className='text-center border-b-1 border-black top-0 w-full py-2 flex items-center justify-center gap-2 relative'>
+                {queueBelongsTo() ? <div className='absolute top-0 left-0 bg-red-600 size-3 rounded-full animate-ping' color='primary'></div> : ''}
                 <div className={clsx('size-3 rounded-full animate-pulse', queueStatus())}></div>
                 <h1>{"MESIN "}</h1>
                 <Chip className='text-white' color='warning'>{data.mesin.kode_mesin}</Chip>

@@ -45,6 +45,10 @@ const TabsComponent = ({ selected, thresholdTime }) => {
                             </div>
                             <h1 className='flex items-center gap-1'>Menunggu konsumen<IoIosInformationCircleOutline size={20} className='text-gray-400' onClick={() => onOpen()} /></h1>
                         </div>
+                        <div className='flex justify-center items-center gap-2'>
+                            <div className='bg-red-600 size-2 rounded-full animate-ping' color='primary'></div>
+                            <h1 className='flex items-center gap-1'>Antrean saya</h1>
+                        </div>
                     </div>
                     <PencuciList />
                 </div>)}
@@ -75,6 +79,10 @@ const TabsComponent = ({ selected, thresholdTime }) => {
                             <div className=' bg-yellow-500 text-white rounded-full size-3'>
                             </div>
                             <h1 className='flex items-center gap-1'>Menunggu konsumen<IoIosInformationCircleOutline size={20} className='text-gray-400' onClick={() => onOpen()} /></h1>
+                        </div>
+                        <div className='flex justify-center items-center gap-2'>
+                            <div className='bg-red-600 size-2 rounded-full animate-ping' color='primary'></div>
+                            <h1 className='flex items-center gap-1'>Antrean saya</h1>
                         </div>
                     </div>
                     <PengeringList />
@@ -168,6 +176,7 @@ const QueuePage = () => {
             if (response.data.success) {
                 removeCookie('__USERTOKEN__')
                 removeCookie('__USERNAME__')
+                removeCookie('__USERID__')
                 toast.success('Berhasil keluar!')
                 setIsLoading(false)
             }
@@ -211,14 +220,9 @@ const QueuePage = () => {
                     )
                 }
             </div>
-            {/* <div className='flex flex-col w-full justify-center items-center mt-5 gap-4'>
-                <h1 className='text-2xl'>Selamat datang di Wash n Go!</h1>
-            </div> */}
-            {/* <Divider className='my-2' /> */}
             <div className='w-full flex justify-center items-center h-auto mt-5'>
                 <h1 className='text-medium w-[70%] text-center mb-5'>Lihat antrean yang sedang berjalan secara <span className='italic'>real-time</span> dibawah ini!</h1>
             </div>
-            {/* <div className="flex w-[500px] flex-col sticky z-20 bottom-0 right-0 px-4"> */}
             <Tabs aria-label="Options" fullWidth={true} onSelectionChange={(e) => { setSelectedTab(e) }}>
                 <Tab key="pencuci" title="Pencuci">
                     <TabsComponent selected={selectedTab} thresholdTime={thresholdTime} />
@@ -230,8 +234,6 @@ const QueuePage = () => {
                     <TabsComponent selected={selectedTab} thresholdTime={thresholdTime} />
                 </Tab>
             </Tabs>
-            {/* </div> */}
-            {/* <TabsComponent selected={selectedTab} /> */}
         </section>
     )
 }

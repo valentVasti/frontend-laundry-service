@@ -58,6 +58,7 @@ const UserLoginRegisterPage = () => {
             if (response.data.message) {
                 setCookie('__USERTOKEN__', response.data.token, { path: '/' });
                 setCookie('__USERNAME__', response.data.data.name, { path: '/' });
+                setCookie('__USERID__', response.data.data.id, { path: '/' });
                 navigate('/');
             } else {
                 console.log('Login failed');
