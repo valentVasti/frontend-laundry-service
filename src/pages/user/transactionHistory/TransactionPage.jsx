@@ -188,12 +188,12 @@ const TransactionHistoryItems = ({ data }) => {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Detail Transaksi</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">{'Detail Transaksi #'+data.id}</ModalHeader>
                             <ModalBody>
                                 <div className='w-full flex flex-col'>
                                     <div className='flex flex-col w-full gap-3'>
                                         {data.detail_transaction.map((data, index) => (
-                                            <div className='flex justify-center items-center'>
+                                            <div key={index} className='flex justify-center items-center'>
                                                 <div className='w-1/3'>
                                                     <h3>{data.product.product_name}</h3>
                                                     <p className='text-sm'>{data.quantity + 'x'}</p>
