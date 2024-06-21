@@ -150,7 +150,7 @@ const UserLoginRegisterPage = () => {
     }
 
     return (
-        <section className='w-full h-screen bg-orange-100 flex justify-center items-center'>
+        <section className='w-full h-screen bg-gray-100 flex justify-center items-center'>
             <section className='bg-blue-400 h-screen w-full md:w-[500px] overflow-hidden relative'>
                 <div className='w-full h-[15%] flex justify-center items-center text-3xl font-bold text-white'>
                     <img src={logo} className='h-[80%] bg-white rounded-b-xl p-2 shadow-2xl self-start' />

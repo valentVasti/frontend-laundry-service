@@ -189,7 +189,7 @@ const QueuePage = () => {
                 theme="light"
                 transition:Slide
             />
-            <div className='w-full h-14 flex justify-evenly items-center text-3xl font-bold text-white gap-4 mt-3'>
+            <div className='w-full h-14 flex justify-evenly items-center text-3xl font-bold text-white gap-4'>
                 <img src={logo} className='h-full bg-white rounded-b-xl p-2 shadow-xl w-1/5 object-contain' />
                 <div className='flex flex-col bg-blue-400 text-white rounded-xl self-center w-3/5 h-full justify-center items-center px-3 shadow-xl'>
                     {

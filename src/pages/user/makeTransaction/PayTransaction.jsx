@@ -123,7 +123,7 @@ const PayTransaction = () => {
     }
 
     return (
-        <div className='w-screen h-screen flex justify-center items-center md:bg-orange-100 overflow-x-hidden'>
+        <div className='w-screen h-screen flex justify-center items-center md:bg-gray-100 overflow-x-hidden'>
             <section className='min-h-screen max-h-auto w-full md:w-[500px] bg-white relative overflow-auto'>
                 <div className='w-full px-2'>
                     <h1 className='text-xl text-center my-3'>Ringkasan Transaksi</h1>
