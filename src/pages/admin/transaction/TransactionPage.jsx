@@ -62,7 +62,6 @@ const TransactionPage = () => {
     findResult != undefined ? setSelectedConsument(findResult) : setSelectedConsument({ id: 0, name: '...', phone_num: '...' });
 
     setPayButton(!((findResult != undefined) && items.length != 0));
-    // ! nantinya bisa search by phone_num
   }
 
   const selectedProduct = (product) => {
@@ -92,7 +91,6 @@ const TransactionPage = () => {
     setPayButton(total == 0);
   }
 
-  // * function buat di dalem modal
   const countPayment = (selectedProduct, action) => {
     const total = action == "add" ? totalPayment + selectedProduct.price : totalPayment - selectedProduct.price;
     action == "add" ? selectedProduct.qty += 1 : selectedProduct.qty -= 1;
@@ -313,7 +311,6 @@ const TransactionPage = () => {
             <SelectedProductList selectedProduct={items} countPayment={countPayment} removeProduct={removeProduct} />
           </div>
 
-          {/* pay button */}
           <div className='w-full h-1/4 bg-gray-200 rounded-md flex flex-col p-2'>
             <div className='w-full h-1/2 flex justify-center items-center text-2xl'>
               {formatPrice(totalPayment)}
@@ -406,11 +403,6 @@ const TransactionPage = () => {
                             ) : null
                           }
                         </ModalBody>
-                        <ModalFooter>
-                          {/* <Button color="default" fullWidth onClick={submitTransaction} isLoading={isLoading}>
-                            Batal
-                          </Button> */}
-                        </ModalFooter>
                       </>
                     )}
                   </ModalContent>

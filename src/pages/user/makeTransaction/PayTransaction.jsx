@@ -123,15 +123,15 @@ const PayTransaction = () => {
     }
 
     return (
-        <>
-            <section className='min-h-screen max-h-auto w-full'>
+        <div className='w-screen h-screen flex justify-center items-center md:bg-orange-100 overflow-x-hidden'>
+            <section className='min-h-screen max-h-auto w-full md:w-[500px] bg-white relative overflow-auto'>
                 <div className='w-full px-2'>
                     <h1 className='text-xl text-center my-3'>Ringkasan Transaksi</h1>
                     <Divider />
                     <div className='flex flex-col w-full gap-3 py-5 px-2'>
                         {transactionSummary.item.map((item, index) => (
                             <DetailTransactionItem key={index} data={item} />
-                        ))}
+                        ))}                       
                     </div>
                     <Divider />
                     <div className='flex w-full justify-between px-2 py-3 items-center'>
@@ -145,7 +145,7 @@ const PayTransaction = () => {
                     <li>Transaksi yang sudah dilakukan <span className='font-bold'>tidak dapat dibatalkan</span></li>
                     <li>Toleransi kedatangan <span className='font-bold'>{thresholdTime + ' menit '}</span>setelah antrian anda, apabila tidak datang, maka akan <span className='font-bold'>antrian akan berlanjut dan nomor antrian anda akan hangus</span></li>
                 </ol>
-                <div className='fixed w-full flex justify-center items-center bottom-[3%] px-2 gap-2'>
+                <div className='absolute w-full flex justify-center items-center bottom-[3%] px-2 gap-2'>
                     <Link to={'/makeTransaction'}><Button className='text-white bg-gray-400 w-1/3' size='lg'>Batal</Button></Link>
                     <Button className='text-white w-2/3' color='primary' size='lg' onPress={handleConfirmAndPayButton} isLoading={isLoading}>Konfirmasi dan Bayar</Button>
                 </div>
@@ -215,7 +215,7 @@ const PayTransaction = () => {
                 </ModalContent>
             </Modal>
             <Toaster />
-        </>
+        </div>
     )
 }
 

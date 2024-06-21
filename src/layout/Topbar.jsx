@@ -19,8 +19,8 @@ const Topbar = ({ toggleSidebar, dateTime, options }) => {
   const setIsTodayOpened = useStore((state) => state.setIsTodayOpened)
   const setIsTodayClosed = useStore((state) => state.setIsTodayClosed)
   const notifyIsTodayQueue = useStore((state) => state.notifyIsTodayQueue)
+  
   const isTodayOpenFetch = async () => {
-
     try {
       const response = await axios.get(BASE_URL + "/isTodayLogOpened", {
         headers: {
@@ -31,7 +31,6 @@ const Topbar = ({ toggleSidebar, dateTime, options }) => {
       console.log(response.data.data)
 
       if (response.data.data.opened && !response.data.data.closed) {
-        // udah dibuka, belom ditutup
         const statusQueue = {
           text: 'Antrian Hari Ini Telah Dibuka',
           color: 'success'
@@ -39,7 +38,6 @@ const Topbar = ({ toggleSidebar, dateTime, options }) => {
         setQueueStatus(statusQueue)
 
       } else if (response.data.data.opened && response.data.data.closed) {
-        // udah dibuka, udah ditutup
         const statusQueue = {
           text: 'Antrian Hari Ini Telah Ditutup',
           color: 'warning'
@@ -47,7 +45,6 @@ const Topbar = ({ toggleSidebar, dateTime, options }) => {
         setQueueStatus(statusQueue)
 
       } else if (!response.data.data.opened && !response.data.data.closed) {
-        // belom dibuka, belom ditutup
         const statusQueue = {
           text: 'Antrian Hari Ini Belum Dibuka',
           color: 'danger'
@@ -55,7 +52,6 @@ const Topbar = ({ toggleSidebar, dateTime, options }) => {
         setQueueStatus(statusQueue)
 
       } else {
-        // belom dibuka, udah ditutup
         const statusQueue = {
           text: 'Invalid Status',
           color: 'warning'

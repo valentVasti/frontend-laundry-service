@@ -63,7 +63,6 @@ const GeneralSettingPage = () => {
                 toaster.success('Threshold Time Successfully Updated!')
             }
         } catch (error) {
-            console.log(error)
             setButtonIsDisabledThreshold(true)
             setIsLoadingThreshold(false)
             toaster.error('Threshold Time Update Fail!')
@@ -87,7 +86,6 @@ const GeneralSettingPage = () => {
                 toaster.success('Max Time Successfully Updated!')
             }
         } catch (error) {
-            console.log(error)
             setButtonIsDisabledMaxTime(true)
             setIsLoadingMaxTime(false)
             toaster.error('Max Time Update Fail!')
@@ -100,10 +98,10 @@ const GeneralSettingPage = () => {
         fetchMaxTime()
     }, [])
 
-    useEffect(() => {
-        console.log(maxTime)
-        setButtonIsDisabledMaxTime(false)
-    }, [maxTime])
+    // useEffect(() => {
+    //     console.log(maxTime)
+    //     setButtonIsDisabledMaxTime(false)
+    // }, [maxTime])
 
     const handleThresholdTimeInput = (e) => {
         console.log(e.target.value)
@@ -130,7 +128,7 @@ const GeneralSettingPage = () => {
                     <p className='italic text-sm text-gray-500'>*Jam maksimal transaksi dapat dilakukan setiap hari (24h)</p>
                 </div>
                 <div className='flex gap-4 h-12'>
-                    <TimeInput label={null} isDisabled={isDisabledMaxTime} hourCycle={24} value={maxTime} className='w-3/5' size='lg' onChange={setMaxTime} />
+                    <TimeInput label={null} isDisabled={isDisabledMaxTime} hourCycle={24} value={maxTime} className='w-3/5' size='lg' onChange={setMaxTime} onKeyUp={() => setButtonIsDisabledMaxTime(false)} />
                     <Button color='primary' className='w-2/5 h-full' isDisabled={buttonIsDisabledMaxTime} onPress={udpateMaxTime} isLoading={isLoadingMaxTime}>Simpan</Button>
                 </div>
             </div>
