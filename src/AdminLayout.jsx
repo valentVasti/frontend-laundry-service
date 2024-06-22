@@ -53,15 +53,10 @@ const AdminLayout = () => {
     let sidebarData = []
     if (cookies.__ROLE__ == 'ADMIN') {
         sidebarData = [
-            // {
-            //     title: "Dashboard",
-            //     icon: <RxDashboard />,
-            //     link: "/admin"
-            // },
             {
                 title: "Queue Management",
                 icon: <HiOutlineQueueList />,
-                link: "/admin/queue"
+                link: "/admin"
             },
             {
                 title: "Transaction",

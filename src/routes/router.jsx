@@ -162,10 +162,6 @@ const routerConfig = [
                 children: [
                     {
                         path: "",
-                        element: <DashboardPage />
-                    },
-                    {
-                        path: "queue",
                         element: <QueueManagementPage />
                     },
                     {
