@@ -6,6 +6,7 @@ import axios from 'axios';
 import { BASE_URL } from '../../../server/Url';
 import { FaCopy } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
+import { pusher, eventName } from '../../../server/pusherService'
 
 const formatDate = (dateString) => {
     const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
@@ -70,6 +71,20 @@ const OnWorkTransaction = () => {
 
     useEffect(() => {
         fetchTranscation()
+    }, [])
+
+    useEffect(() => {
+        const channel = pusher.subscribe('queue-channel');
+        channel.bind(eventName.notifyNextOrDoneQueue, function () {
+            console.log('event received: notifyNextOrDoneQueue')
+            fetchTranscation()
+        });
+
+        return () => {
+            console.log('unsubscribing queue-channel')
+            channel.unbind(eventName.notifyNextOrDoneQueue);
+            pusher.unsubscribe('queue-channel');
+        };
     }, [])
 
     useEffect(() => {
@@ -188,7 +203,7 @@ const TransactionHistoryItems = ({ data }) => {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">{'Detail Transaksi #'+data.id}</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">{'Detail Transaksi #' + data.id}</ModalHeader>
                             <ModalBody>
                                 <div className='w-full flex flex-col'>
                                     <div className='flex flex-col w-full gap-3'>
@@ -242,6 +257,20 @@ const TransactionHistory = () => {
 
     useEffect(() => {
         fetchTransactionHistory()
+    }, [])
+
+    useEffect(() => {
+        const channel = pusher.subscribe('queue-channel');
+        channel.bind(eventName.notifyNextOrDoneQueue, function () {
+            console.log('event received: notifyNextOrDoneQueue')
+            fetchTransactionHistory()
+        });
+
+        return () => {
+            console.log('unsubscribing queue-channel')
+            channel.unbind(eventName.notifyNextOrDoneQueue);
+            pusher.unsubscribe('queue-channel');
+        };
     }, [])
 
     if (isLoading) {
