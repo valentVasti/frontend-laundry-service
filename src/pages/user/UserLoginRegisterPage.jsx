@@ -7,6 +7,8 @@ import { useCookies } from 'react-cookie';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import logo from '../../assets/logo.png';
+import { IoEyeOffSharp } from "react-icons/io5";
+import { IoEye } from "react-icons/io5";
 
 const UserLoginRegisterPage = () => {
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -29,6 +31,8 @@ const UserLoginRegisterPage = () => {
     const [passwordRegisterError, setPasswordRegisterError] = useState('');
     const [nameError, setNameError] = useState('');
     const [phoneNumError, setPhoneNumError] = useState('');
+    const [isVisible, setIsVisible] = useState(false);
+
     const navigate = useNavigate();
 
     const handleEmailChange = (e) => {
@@ -150,6 +154,8 @@ const UserLoginRegisterPage = () => {
         }
     }
 
+    const toggleVisibility = () => setIsVisible(!isVisible);
+
     return (
         <section className='w-full h-screen bg-gray-100 flex justify-center items-center'>
             <section className='bg-blue-400 h-screen w-full md:w-[500px] overflow-hidden relative'>
@@ -182,10 +188,19 @@ const UserLoginRegisterPage = () => {
                                     isRequired
                                     label="Password"
                                     placeholder="Masukkan password"
-                                    type="password"
                                     onChange={handlePasswordChange}
                                     isInvalid={passwordInvalid}
                                     errorMessage={passwordError}
+                                    endContent={
+                                        <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                                            {isVisible ? (
+                                                <IoEyeOffSharp className="text-2xl text-default-400 pointer-events-none" />
+                                            ) : (
+                                                <IoEye className="text-2xl text-default-400 pointer-events-none" />
+                                            )}
+                                        </button>
+                                    }
+                                    type={isVisible ? "text" : "password"}
                                 />
                                 <p className="text-center text-small cursor-pointer">
                                     Belum buat akun?{" "}
@@ -209,10 +224,19 @@ const UserLoginRegisterPage = () => {
                                     isRequired
                                     label="Password"
                                     placeholder="Masukkan password"
-                                    type="password"
                                     onChange={handlePasswordChange}
                                     isInvalid={passwordRegisterInvalid}
                                     errorMessage={passwordRegisterError}
+                                    endContent={
+                                        <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                                            {isVisible ? (
+                                                <IoEyeOffSharp className="text-2xl text-default-400 pointer-events-none" />
+                                            ) : (
+                                                <IoEye className="text-2xl text-default-400 pointer-events-none" />
+                                            )}
+                                        </button>
+                                    }
+                                    type={isVisible ? "text" : "password"}
                                 />
                                 <p className="text-center text-small cursor-pointer">
                                     Sudah punya akun?{" "}

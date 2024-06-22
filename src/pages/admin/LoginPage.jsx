@@ -4,6 +4,7 @@ import axios from 'axios'
 import { BASE_URL } from '../../server/Url';
 import { useCookies } from 'react-cookie';
 import logo from '../../assets/logo.png'
+import { IoEye, IoEyeOffSharp } from 'react-icons/io5';
 
 const LoginPage = () => {
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -14,6 +15,7 @@ const LoginPage = () => {
     const [passwordInvalid, setPasswordInvalid] = useState(false)
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
+    const [isVisible, setIsVisible] = useState(false);
 
     const handleEmail = (e) => {
         resetForm('email')
@@ -78,6 +80,8 @@ const LoginPage = () => {
         }
     }
 
+    const toggleVisibility = () => setIsVisible(!isVisible);
+
     return (
         <>
             <div className='h-screen w-full flex justify-center items-center'>
@@ -93,7 +97,17 @@ const LoginPage = () => {
                     <Divider />
                     <CardBody className='flex flex-col gap-8 py-5'>
                         <Input label="Email" placeholder='Masukkan Email ...' labelPlacement='outside' onInput={handleEmail} isInvalid={emailInvalid} errorMessage={emailError}></Input>
-                        <Input type='password' label="Password" placeholder='Masukkan password ...' labelPlacement='outside' onInput={handlePassword} isInvalid={passwordInvalid} errorMessage={passwordError}></Input>
+                        <Input label="Password" placeholder='Masukkan password ...' labelPlacement='outside' onInput={handlePassword} isInvalid={passwordInvalid} errorMessage={passwordError}
+                            endContent={
+                                <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                                    {isVisible ? (
+                                        <IoEyeOffSharp className="text-2xl text-default-400 pointer-events-none" />
+                                    ) : (
+                                        <IoEye className="text-2xl text-default-400 pointer-events-none" />
+                                    )}
+                                </button>
+                            }
+                            type={isVisible ? "text" : "password"}></Input>
                     </CardBody>
                     <Divider />
                     <CardFooter>
