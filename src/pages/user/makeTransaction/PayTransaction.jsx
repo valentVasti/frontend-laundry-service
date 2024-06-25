@@ -150,7 +150,7 @@ const PayTransaction = () => {
                     <Button className='text-white w-2/3' color='primary' size='lg' onPress={handleConfirmAndPayButton} isLoading={isLoading}>Konfirmasi dan Bayar</Button>
                 </div>
             </section>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={true} isKeyboardDismissDisabled={true} hideCloseButton={true} placement='top'>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={false} hideCloseButton={true} placement='top'>
                 <ModalContent>
                     {() => (
                         <>
