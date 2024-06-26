@@ -15,27 +15,11 @@ const ProductPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['__ADMINTOKEN__']);
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
+  const [refresh, setRefresh] = useState(false)
   const [search, setSearch] = useState('')
   const [productName, setProductName] = useState('')
   const [price, setPrice] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
-
-  const fetchProduct = async () => {
-    try {
-      const response = await axios.get(BASE_URL + "/product", {
-        headers: {
-          'Authorization': 'Bearer ' + cookies.__ADMINTOKEN__
-        },
-      });
-      console.log(response.data.data);
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useLayoutEffect(() => {
-    fetchProduct()
-  }, [])
 
   const handleOnInputProductName = (e) => {
     setProductName(e.target.value)
@@ -57,7 +41,7 @@ const ProductPage = () => {
         }
       });
       console.log(response.data);
-      fetchProduct()
+      setRefresh(!refresh)
       onClose()
       Swal.fire({
         title: "Product added successfully!",
@@ -104,7 +88,7 @@ const ProductPage = () => {
           </div>
         </div>
         <div className='w-full h-full'>
-          <ProductTable search={search} />
+          <ProductTable search={search} refresh={refresh} />
         </div>
       </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

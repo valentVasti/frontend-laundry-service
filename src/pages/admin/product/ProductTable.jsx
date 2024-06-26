@@ -25,7 +25,7 @@ import Swal from 'sweetalert2';
 import { useCookies } from 'react-cookie';
 import { IoIosArrowDown } from 'react-icons/io';
 
-const ProductTable = ({ search }) => {
+const ProductTable = ({ search, refresh }) => {
     const [cookies, setCookie, removeCookie] = useCookies(['__ADMINTOKEN__']);
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
@@ -253,7 +253,7 @@ const ProductTable = ({ search }) => {
 
     useEffect(() => {
         fetchProduct()
-    }, [])
+    }, [refresh])
 
     useEffect(() => {
         console.log(search)

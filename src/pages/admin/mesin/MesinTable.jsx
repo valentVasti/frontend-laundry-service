@@ -262,7 +262,6 @@ const MesinTable = ({ refresh, search }) => {
     }, [refresh])
 
     useEffect(() => {
-        console.log(search)
         searchMesin()
     }, [search])
 
