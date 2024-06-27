@@ -26,7 +26,7 @@ const AntrianList = () => {
 
   useEffect(() => {
     // pusher listener
-    const channel = pusher.subscribe('queued');
+    const channel = pusher.subscribe('queue-channel');
     channel.bind(eventName.notifyNextOrDoneQueue, function () {
       console.log('event received: notifyNextOrDoneQueue')
       fetchNowQueue()

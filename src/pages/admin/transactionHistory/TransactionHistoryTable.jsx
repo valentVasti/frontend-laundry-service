@@ -163,12 +163,13 @@ const TransactionHistoryTable = forwardRef((props, ref) => {
     // custom column
     const renderCell = useCallback((item, columnKey) => {
         const cellValue = getKeyValue(item, columnKey);
+        console.log(item)
 
         switch (columnKey) {
             case "pelanggan":
                 return item.user.name
             case "karyawan":
-                return item.user.name
+                return item.karyawan.name
             case "created_at":
                 return formatDate(cellValue)
             case "action":
