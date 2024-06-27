@@ -23,15 +23,16 @@ const QueueNowList = () => {
     }, []);
 
     useEffect(() => {
-        // pusher listener
-        const channel = pusher.subscribe('queued');
-        channel.bind(eventName.notifyQueued, function () {
+        const channel = pusher.subscribe('queue-channel');
+        channel.bind(eventName.notifyNextOrDoneQueue, function () {
+            console.log('event received: notifyNextOrDoneQueue')
             fetchNowQueue()
         });
 
         return () => {
-            channel.unbind(eventName.notifyQueued);
-            pusher.unsubscribe('queued');
+            console.log('unsubscribing queue-channel')
+            channel.unbind(eventName.notifyNextOrDoneQueue);
+            pusher.unsubscribe('queue-channel');
         };
     }, [])
 
