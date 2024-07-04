@@ -27,11 +27,11 @@ const MenuBottom = () => {
             icon: <CgNotes />,
             link: '/transaction'
         },
-        // {
-        //     name: 'Profil',
-        //     icon: <CgProfile />,
-        //     link: '/profile'
-        // },
+        {
+            name: 'Profil',
+            icon: <CgProfile />,
+            link: '/profile'
+        },
     ]
 
     return (

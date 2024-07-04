@@ -52,8 +52,6 @@ export const data = {
     ],
 };
 
-console.log(data.datasets[0].data)
-
 const TodayQueueChart = () => {
     return (
         <div className='w-full h-full'>
