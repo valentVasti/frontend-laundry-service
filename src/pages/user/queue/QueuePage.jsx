@@ -200,15 +200,15 @@ const QueuePage = () => {
             />
             <div className='w-full h-14 flex justify-evenly items-center text-3xl font-bold text-white gap-4'>
                 <img src={logo} className='h-full bg-white rounded-b-xl p-2 shadow-xl w-1/5 object-contain' />
-                <div className='flex flex-col bg-blue-400 text-white rounded-xl self-center w-3/5 h-full justify-center items-center px-3 shadow-xl'>
+                <div className='flex flex-col bg-blue-400 text-white rounded-xl self-center overflow-hidden w-3/5 h-full justify-center items-center px-3 shadow-xl'>
                     {
                         cookies.__USERTOKEN__ == undefined ? (
                             <div className='font-normal text-sm flex flex-col items-center text-center'>Selamat datang!<br /><span className='font-bold ms-1'>Masuk untuk mulai!</span></div>
                         ) : (
-                            <>
-                                <div className='font-normal text-lg flex items-center'>Hai, <b>{cookies.__USERNAME__}!</b></div>
+                            <div className='w-full flex flex-col justify-center items-center'>
+                                <div className='font-normal text-base flex justify-center items-center w-full'>Hai,&nbsp;<b className='text-ellipsis text-nowrap overflow-hidden'>{cookies.__USERNAME__}!</b></div>
                                 <div className='font-normal text-sm flex items-center tracking-wide'>Siap nyuci hari ini?</div>
-                            </>
+                            </div>
                         )
                     }
                 </div>

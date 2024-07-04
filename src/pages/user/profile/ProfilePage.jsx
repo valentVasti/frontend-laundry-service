@@ -191,9 +191,9 @@ const ProfilePage = () => {
         <div className='w-full absolute top-0 h-[15%] flex justify-left items-center text-2xl text-white font-bold px-5'>
           Profil
         </div>
-        <div className='absolute bottom-0 h-[85%] bg-white w-full rounded-t-3xl p-5 flex flex-col items-center justify-start gap-5'>
-          <h1 className='text-3xl'>{user.name}</h1>
-          <div className='flex w-full justify-center items-center h-auto gap-3'>
+        <div className='absolute bottom-0 min-h-[85%] bg-white w-full rounded-t-3xl p-5 flex flex-col items-center justify-start gap-5'>
+          <h1 className='text-2xl text-center line-clamp-2'>{user.name}</h1>
+          <div className='flex flex-col w-full justify-center items-center h-auto gap-3'>
             <div className='h-1/2 flex items-center gap-2 justify-center'>
               <MdEmail className='text-xl' />
               <h1>{user.email}</h1>

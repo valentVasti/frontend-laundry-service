@@ -37,7 +37,7 @@ const MenuBottom = () => {
     return (
         <nav className='w-full h-16 flex justify-evenly items-center border-t-2 border-gray-700 bg-white'>
             {menu.map((data) => (
-                <a key={data.name} href={data.link} className={clsx('w-1/3 h-full flex flex-col justify-center items-center')}>
+                <a key={data.name} href={data.link} className={clsx('w-1/4 h-full flex flex-col justify-center items-center')}>
                     <div className={clsx('text-2xl ', window.location.pathname === data.link ? 'text-orange-400' : 'text-gray-700')}>
                         {data.icon}
                     </div>
