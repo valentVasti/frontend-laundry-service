@@ -112,7 +112,11 @@ const TabsComponent = ({ selected, thresholdTime }) => {
                         <div className='flex justify-center items-center gap-1'>
                             <div className=' bg-yellow-500 text-white size-4 rounded-tr-md rounded-bl-md'>
                             </div>
-                            <h1>Konsumen belum datag</h1>
+                            <h1>Konsumen belum datang</h1>
+                        </div>
+                        <div className='flex justify-center items-center gap-2'>
+                            <div className='bg-red-600 size-3 rounded-full animate-ping' color='primary'></div>
+                            <h1 className='flex items-center gap-1'>Antrean saya</h1>
                         </div>
                     </div>
                     <AntrianList />
